@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>สมุยทูเดย์ — ทัวร์และรถรับส่งเกาะสมุย โดยคนท้องถิ่น</title>
+<meta name="description" content="ทัวร์แท้ๆ ทริปวันเดียว และรถรับส่งส่วนตัวในเกาะสมุย โดยคนท้องถิ่นที่ไว้วางใจได้ตั้งแต่ปี 2548">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,900;1,700&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@0.460.0"></script>
+<style>
+/* ===================== RESET ===================== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+img,svg{display:block;max-width:100%}
+a{text-decoration:none;color:inherit}
+button{font:inherit;cursor:pointer;border:none;background:none}
+ul{list-style:none}
+
+/* ===================== TOKENS ===================== */
+:root{
+  --jade:#1A4D3A;
+  --jade-dk:#0F2D21;
+  --jade-lt:#2A6B52;
+  --tan:#FF6B1A;
+  --tan-dk:#CC4F0A;
+  --cream:#F5E8C7;
+  --cream-dk:#E8D5A8;
+  --white:#fff;
+}
+
+/* ===================== BASE ===================== */
+html{scroll-behavior:smooth}
+body{
+  font-family:'IBM Plex Sans Thai','Sukhumvit Set',sans-serif;
+  font-weight:400;
+  font-size:16px;
+  line-height:1.8;
+  color:var(--cream);
+  background:var(--jade-dk);
+  word-break:break-word;
+  overflow-wrap:break-word;
+  overflow-x:hidden;
+}
+
+/* Thai heading helper — never use letter-spacing on Thai */
+.hd{
+  font-family:'Barlow Condensed','IBM Plex Sans Thai',sans-serif;
+  font-weight:900;
+  text-transform:uppercase;
+  line-height:1.5;
+}
+.hd--en{ letter-spacing:0.03em; line-height:1.0; }
+
+/* ===================== SCROLL LAYOUT ===================== */
+/* Mobile: normal vertical stack */
+.sc{ display:block }
+.panel{ width:100%; min-height:auto }
+
+/* Desktop: horizontal snap panels */
+@media(min-width:768px){
+  html,body{ overflow:hidden; height:100% }
+  .sc{
+    display:flex;
+    flex-direction:row;
+    overflow-x:scroll;
+    overflow-y:hidden;
+    scroll-snap-type:x mandatory;
+    height:100vh;
+    width:100vw;
+    scroll-behavior:smooth;
+  }
+  .sc::-webkit-scrollbar{ display:none }
+  .sc{ -ms-overflow-style:none; scrollbar-width:none }
+  .panel{
+    min-width:100vw;
+    width:100vw;
+    height:100vh;
+    scroll-snap-align:start;
+    overflow-y:auto;
+    overflow-x:hidden;
+    flex-shrink:0;
+  }
+}
+
+/* ===================== NAV ===================== */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:900;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.1rem 1.4rem;
+  transition:background .3s,padding .3s;
+}
+.nav.shrunk{
+  background:rgba(15,45,33,.96);
+  backdrop-filter:blur(8px);
+  padding:.65rem 1.4rem;
+}
+.nav__logo{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;font-size:1.45rem;
+  text-transform:uppercase;letter-spacing:.06em;
+  color:var(--cream);
+}
+.nav__logo span{color:var(--tan)}
+.nav__r{display:flex;align-items:center;gap:1.2rem}
+.nav__links{
+  display:none;gap:1.4rem;align-items:center;
+}
+.nav__links a{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;font-size:.88rem;
+  text-transform:uppercase;letter-spacing:.1em;
+  color:var(--cream);
+  transition:color .2s;
+  padding:.5rem 0;
+}
+.nav__links a:hover{color:var(--tan)}
+
+/* lang switcher */
+.lang-sw{
+  display:flex;align-items:center;gap:.28rem;
+  font-size:.78rem;color:var(--cream);
+  background:rgba(255,255,255,.12);
+  padding:.28rem .55rem;border-radius:3px;
+  transition:background .2s;
+  white-space:nowrap;
+}
+.lang-sw:hover{background:rgba(255,255,255,.22)}
+.lang-sw__label{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;letter-spacing:.06em;
+}
+
+.hamburger{color:var(--cream);padding:.4rem;display:flex;align-items:center}
+
+@media(min-width:768px){
+  .nav__links{display:flex}
+  .hamburger{display:none}
+}
+
+/* ===================== MOBILE MENU ===================== */
+.mob-menu{
+  display:none;
+  position:fixed;inset:0;z-index:950;
+  background:var(--jade-dk);
+  flex-direction:column;align-items:center;justify-content:center;gap:2rem;
+}
+.mob-menu.open{display:flex}
+.mob-menu__close{
+  position:absolute;top:1.4rem;right:1.4rem;
+  color:var(--cream);padding:.4rem;
+}
+.mob-menu a{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;font-size:2.6rem;
+  text-transform:uppercase;color:var(--cream);
+  transition:color .2s;
+}
+.mob-menu a:hover{color:var(--tan)}
+
+/* ===================== PANEL DOTS ===================== */
+.dots{
+  display:none;
+  position:fixed;right:1.2rem;top:50%;
+  transform:translateY(-50%);
+  z-index:800;flex-direction:column;gap:.55rem;
+}
+@media(min-width:768px){.dots{display:flex}}
+.dot{
+  width:7px;height:7px;border-radius:50%;
+  background:rgba(245,232,199,.28);cursor:pointer;
+  transition:background .3s,transform .3s;
+}
+.dot.on{background:var(--tan);transform:scale(1.5)}
+
+/* ===================== PROGRESS BAR ===================== */
+.prog{
+  display:none;position:fixed;top:0;left:0;
+  height:3px;background:var(--tan);z-index:9999;
+  transition:width .12s linear;
+}
+@media(min-width:768px){.prog{display:block}}
+
+/* ===================== BUTTONS ===================== */
+.btn{
+  display:inline-flex;align-items:center;gap:.45rem;
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;font-size:1rem;
+  text-transform:uppercase;
+  padding:.85em 1.75em;border-radius:2px;
+  min-height:44px;cursor:pointer;
+  transition:transform .2s,background .25s,color .25s;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn--fill{background:var(--tan);color:var(--white);border:2px solid var(--tan)}
+.btn--fill:hover{background:var(--tan-dk);border-color:var(--tan-dk)}
+.btn--ghost{background:transparent;color:var(--cream);border:2px solid var(--cream)}
+.btn--ghost:hover{background:var(--cream);color:var(--jade-dk)}
+.btn--jade{background:var(--jade);color:var(--cream);border:2px solid var(--jade)}
+.btn--jade:hover{background:var(--jade-lt)}
+
+/* ===================== SECTION LABEL ===================== */
+.lbl{
+  display:inline-flex;align-items:center;gap:.55rem;
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;font-size:.76rem;
+  text-transform:uppercase;letter-spacing:.2em;
+  color:var(--tan);margin-bottom:.65rem;
+}
+.lbl::before{content:'';width:1.4rem;height:2px;background:var(--tan);flex-shrink:0}
+
+/* No letter-spacing on Thai content */
+[lang="th"] [data-lang-th] { letter-spacing: 0 !important; }
+
+/* ===================== REVEAL ANIM ===================== */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .6s ease-out,transform .6s ease-out}
+.rv.on{opacity:1;transform:translateY(0)}
+.rv.d1{transition-delay:.1s}
+.rv.d2{transition-delay:.2s}
+.rv.d3{transition-delay:.3s}
+.rv.d4{transition-delay:.4s}
+
+/* ============================================================
+   PANEL 1 — HERO
+   ============================================================ */
+.hero{
+  position:relative;min-height:100vh;
+  display:flex;align-items:flex-end;
+  background:var(--jade-dk);overflow:hidden;
+}
+.hero__bg{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:center 60%;
+  filter:brightness(.42) saturate(.65);
+  transform:scale(1.06);
+  transition:transform .1s linear;
+}
+/* duotone jade wash */
+.hero::before{
+  content:'';position:absolute;inset:0;z-index:1;
+  background:linear-gradient(135deg,rgba(26,77,58,.72) 0%,rgba(255,107,26,.18) 100%);
+}
+/* bottom vignette */
+.hero::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;
+  height:55%;z-index:1;
+  background:linear-gradient(to bottom,transparent,rgba(15,45,33,.92));
+}
+/* retro sunburst */
+.hero__sun{
+  position:absolute;top:-15%;right:-12%;
+  width:62vw;height:62vw;z-index:1;
+  opacity:.07;pointer-events:none;
+}
+.hero__content{
+  position:relative;z-index:2;
+  padding:7rem 1.4rem 2.8rem;
+  width:100%;
+}
+.hero__eye{
+  display:inline-flex;align-items:center;gap:.55rem;
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;font-size:.76rem;
+  text-transform:uppercase;letter-spacing:.22em;
+  color:var(--tan);margin-bottom:.9rem;
+}
+.hero__eye::before,.hero__eye::after{
+  content:'';width:2rem;height:2px;background:var(--tan);
+}
+.hero__h1{
+  font-family:'Barlow Condensed','IBM Plex Sans Thai',sans-serif;
+  font-weight:900;text-transform:uppercase;
+  font-size:clamp(3.2rem,13vw,8.5rem);
+  color:var(--cream);
+  line-height:1.35;
+  margin-bottom:1.3rem;
+}
+.hero__sub{
+  font-size:1rem;font-weight:300;
+  color:rgba(245,232,199,.82);
+  max-width:36rem;margin-bottom:2rem;
+  line-height:1.85;
+}
+.hero__ctas{display:flex;gap:.9rem;flex-wrap:wrap}
+.hero__scroll{
+  position:absolute;bottom:1.4rem;right:1.4rem;z-index:2;
+  display:flex;align-items:center;gap:.35rem;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(245,232,199,.45);
+  animation:pulse 2.2s infinite;
+}
+@keyframes pulse{0%,100%{opacity:.45}50%{opacity:.95}}
+
+@media(min-width:768px){
+  .hero__content{
+    padding:0 5.5vw;max-width:62vw;
+    height:100%;display:flex;flex-direction:column;
+    justify-content:flex-end;padding-bottom:5rem;
+  }
+  .hero__h1{font-size:clamp(4.5rem,8.5vw,9rem);line-height:1.1}
+}
+
+/* ============================================================
+   PANEL 2 — TOURS
+   ============================================================ */
+.tours{
+  background:var(--cream);color:var(--jade-dk);
+  padding:5rem 1.4rem 3rem;
+  min-height:100vh;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.tours__hdg{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;text-transform:uppercase;
+  font-size:clamp(2.6rem,8vw,5.5rem);
+  color:var(--jade-dk);line-height:1.05;
+  letter-spacing:.02em;margin-bottom:.4rem;
+}
+.tours__sub{
+  font-size:.95rem;line-height:1.8;
+  color:rgba(26,77,58,.72);max-width:540px;margin-bottom:2.2rem;
+}
+.tours__grid{
+  display:grid;grid-template-columns:1fr;gap:1.3rem;
+}
+.tc{
+  position:relative;border-radius:3px;overflow:hidden;
+  background:var(--jade);cursor:pointer;
+  transition:transform .3s,box-shadow .3s;
+}
+.tc:hover{transform:translateY(-6px);box-shadow:0 18px 38px rgba(26,77,58,.22)}
+.tc__img{
+  width:100%;height:220px;object-fit:cover;
+  transition:transform .5s,filter .3s;
+  filter:brightness(.72);
+}
+.tc:hover .tc__img{transform:scale(1.06);filter:brightness(.85)}
+.tc__body{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:1.3rem 1.4rem;
+  background:linear-gradient(to top,rgba(15,45,33,.95),transparent);
+}
+.tc__tag{
+  display:inline-block;
+  background:var(--tan);color:var(--white);
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;font-size:.68rem;
+  text-transform:uppercase;letter-spacing:.1em;
+  padding:.22em .65em;border-radius:2px;
+  margin-bottom:.42rem;
+}
+.tc__title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;font-size:1.45rem;
+  text-transform:uppercase;letter-spacing:.02em;
+  color:var(--cream);line-height:1.25;
+  margin-bottom:.3rem;
+}
+.tc__desc{font-size:.84rem;color:rgba(245,232,199,.78);line-height:1.7}
+.tc__foot{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.85rem 1.4rem;background:var(--jade-dk);
+}
+.tc__price{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;font-size:1.25rem;color:var(--tan);
+}
+.tc__dur{
+  display:flex;align-items:center;gap:.3rem;
+  font-size:.78rem;color:rgba(245,232,199,.65);
+}
+
+@media(min-width:768px){
+  .tours{padding:4rem 5vw;overflow-y:auto}
+  .tours__grid{grid-template-columns:repeat(3,1fr)}
+  .tc__img{height:270px}
+}
+
+/* ============================================================
+   PANEL 3 — TRANSFERS
+   ============================================================ */
+.xfers{
+  position:relative;
+  background:var(--jade);color:var(--cream);
+  padding:5rem 1.4rem;
+  min-height:100vh;
+  display:flex;flex-direction:column;justify-content:center;
+  overflow:hidden;
+}
+.xfers__bg{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;opacity:.12;pointer-events:none;
+}
+/* diagonal stripe decoration */
+.xfers::before{
+  content:'';position:absolute;
+  top:-40%;right:-20%;
+  width:60vw;height:160%;
+  background:rgba(255,107,26,.07);
+  transform:rotate(-12deg);pointer-events:none;
+}
+.xfers__content{position:relative;z-index:1}
+.xfers__hdg{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;text-transform:uppercase;
+  font-size:clamp(2.6rem,8vw,5.5rem);
+  color:var(--cream);line-height:1.05;
+  letter-spacing:.02em;margin-bottom:.4rem;
+}
+.xfers__sub{
+  font-size:.95rem;line-height:1.8;
+  color:rgba(245,232,199,.75);max-width:520px;margin-bottom:2.2rem;
+}
+.xfers__list{display:flex;flex-direction:column;gap:1.2rem;margin-bottom:2.2rem}
+.xo{
+  display:flex;gap:1.3rem;align-items:flex-start;
+  padding:1.35rem 1.4rem;
+  border:1px solid rgba(245,232,199,.18);
+  border-radius:3px;
+  background:rgba(15,45,33,.45);
+  backdrop-filter:blur(4px);
+  transition:border-color .3s,background .3s;
+}
+.xo:hover{border-color:var(--tan);background:rgba(15,45,33,.65)}
+.xo__icon{
+  width:2.8rem;height:2.8rem;border-radius:50%;
+  background:var(--tan);color:var(--white);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.xo__ttl{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;font-size:1.2rem;text-transform:uppercase;
+  letter-spacing:.03em;color:var(--cream);margin-bottom:.3rem;
+}
+.xo__desc{font-size:.88rem;color:rgba(245,232,199,.72);line-height:1.8}
+
+@media(min-width:768px){
+  .xfers{padding:4rem 5vw;overflow-y:auto}
+  .xfers__list{flex-direction:row;flex-wrap:wrap}
+  .xo{flex:1;min-width:270px}
+}
+
+/* ============================================================
+   PANEL 4 — ABOUT
+   ============================================================ */
+.about{
+  background:var(--jade-dk);color:var(--cream);
+  padding:5rem 1.4rem;
+  min-height:100vh;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.about__inner{display:flex;flex-direction:column;gap:2.5rem}
+.about__imgwrap{
+  position:relative;border-radius:3px;overflow:visible;flex-shrink:0;
+}
+.about__img{
+  width:100%;height:280px;object-fit:cover;
+  border-radius:3px;
+  clip-path:polygon(0 0,100% 0,100% 92%,0 100%);
+}
+.about__badge{
+  position:absolute;bottom:-1rem;right:1rem;
+  background:var(--tan);color:var(--white);
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;font-size:.95rem;
+  text-transform:uppercase;letter-spacing:.06em;
+  padding:.7em 1.1em;border-radius:3px;
+}
+.about__hdg{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;text-transform:uppercase;
+  font-size:clamp(2.4rem,7vw,5rem);
+  color:var(--cream);line-height:1.2;
+  letter-spacing:.02em;margin-bottom:1rem;
+}
+.about__p{
+  font-size:.95rem;line-height:1.9;
+  color:rgba(245,232,199,.82);margin-bottom:.9rem;
+}
+.stats{display:flex;gap:2rem;flex-wrap:wrap;margin:1.4rem 0}
+.stat__n{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;font-size:2.4rem;
+  color:var(--tan);letter-spacing:.02em;line-height:1;
+}
+.stat__l{font-size:.82rem;color:rgba(245,232,199,.62);line-height:1.6;margin-top:.25rem}
+
+@media(min-width:768px){
+  .about{padding:4rem 5vw;overflow-y:auto}
+  .about__inner{flex-direction:row;align-items:center}
+  .about__imgwrap{flex:0 0 44%}
+  .about__img{height:480px}
+  .about__text{flex:1;padding-left:1rem}
+}
+
+/* ============================================================
+   PANEL 5 — DESTINATIONS
+   ============================================================ */
+.dest{
+  background:var(--cream-dk);color:var(--jade-dk);
+  padding:5rem 1.4rem;
+  min-height:100vh;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.dest .lbl{color:var(--tan)}
+.dest__hdg{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;text-transform:uppercase;
+  font-size:clamp(2.6rem,8vw,5.5rem);
+  color:var(--jade-dk);line-height:1.05;
+  letter-spacing:.02em;margin-bottom:1.8rem;
+}
+.dest__grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:.7rem;
+}
+.di{
+  position:relative;border-radius:3px;overflow:hidden;
+  cursor:pointer;
+}
+.di:first-child{grid-column:1/-1}
+.di img{
+  width:100%;height:175px;object-fit:cover;
+  transition:transform .5s,filter .3s;
+  filter:saturate(.85);
+}
+.di:first-child img{height:240px}
+.di:hover img{transform:scale(1.06);filter:saturate(1.2)brightness(1.05)}
+.di__lbl{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:.9rem 1rem;
+  background:linear-gradient(to top,rgba(15,45,33,.88),transparent);
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;font-size:1.05rem;
+  text-transform:uppercase;letter-spacing:.05em;
+  color:var(--cream);
+}
+
+@media(min-width:768px){
+  .dest{padding:4rem 5vw;overflow-y:auto}
+  .dest__grid{grid-template-columns:repeat(4,1fr);grid-template-rows:auto auto}
+  .di:first-child{grid-column:1/3;grid-row:1/3}
+  .di img{height:200px}
+  .di:first-child img{height:100%;min-height:420px}
+}
+
+/* ============================================================
+   PANEL 6 — TESTIMONIALS
+   ============================================================ */
+.testi{
+  position:relative;
+  background:var(--jade-dk);color:var(--cream);
+  padding:5rem 1.4rem;
+  min-height:100vh;
+  display:flex;flex-direction:column;justify-content:center;
+  overflow:hidden;
+}
+.testi__deco{
+  position:absolute;top:-3rem;left:-1.5rem;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:22rem;color:var(--tan);
+  opacity:.06;line-height:1;pointer-events:none;
+  user-select:none;
+}
+.testi__hdg{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;text-transform:uppercase;
+  font-size:clamp(2.6rem,8vw,5.5rem);
+  color:var(--cream);line-height:1.05;
+  letter-spacing:.02em;margin-bottom:.3rem;
+}
+.testi__meta{
+  font-size:.88rem;color:rgba(245,232,199,.55);
+  line-height:1.7;margin-bottom:2rem;
+}
+.testi__grid{display:flex;flex-direction:column;gap:1.3rem}
+.tk{
+  padding:1.75rem 1.5rem;
+  border:1px solid rgba(245,232,199,.14);
+  border-radius:3px;
+  background:rgba(42,107,82,.18);
+  position:relative;
+}
+.tk__q{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:3.5rem;color:var(--tan);
+  line-height:.7;display:block;margin-bottom:.7rem;
+}
+.tk__text{font-size:.93rem;line-height:1.85;color:rgba(245,232,199,.88);margin-bottom:1.2rem}
+.tk__author{display:flex;align-items:center;gap:.7rem}
+.tk__av{
+  width:40px;height:40px;border-radius:50%;
+  object-fit:cover;border:2px solid var(--tan);flex-shrink:0;
+}
+.tk__av--init{
+  width:40px;height:40px;border-radius:50%;flex-shrink:0;
+  background:var(--tan);color:var(--white);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;font-size:1.1rem;
+  border:2px solid var(--tan);
+}
+.tk__name{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;font-size:.95rem;
+  text-transform:uppercase;letter-spacing:.05em;
+}
+.tk__orig{font-size:.76rem;color:rgba(245,232,199,.5);margin-top:.1rem}
+.stars{display:flex;gap:.12rem;margin-bottom:.65rem;color:var(--tan)}
+
+@media(min-width:768px){
+  .testi{padding:4rem 5vw;overflow-y:auto}
+  .testi__grid{flex-direction:row}
+  .tk{flex:1}
+}
+
+/* ============================================================
+   PANEL 7 — CONTACT + FOOTER
+   ============================================================ */
+.contact{
+  position:relative;
+  background:var(--jade);color:var(--cream);
+  padding:5rem 1.4rem 3rem;
+  min-height:100vh;
+  display:flex;flex-direction:column;justify-content:center;
+  overflow:hidden;
+}
+.contact::after{
+  content:'';position:absolute;
+  bottom:-8%;right:-8%;
+  width:45vw;height:45vw;border-radius:50%;
+  border:36px solid rgba(255,107,26,.1);
+  pointer-events:none;
+}
+.contact__hdg{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;text-transform:uppercase;
+  font-size:clamp(2.6rem,8vw,5.5rem);
+  color:var(--cream);line-height:1.05;
+  letter-spacing:.02em;margin-bottom:.4rem;
+}
+.contact__sub{
+  font-size:.95rem;line-height:1.8;
+  color:rgba(245,232,199,.72);
+  max-width:460px;margin-bottom:2rem;
+}
+.contact__inner{
+  display:flex;flex-direction:column;
+  gap:2.5rem;position:relative;z-index:1;
+}
+.cform{
+  background:rgba(15,45,33,.5);
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(245,232,199,.15);
+  border-radius:3px;padding:1.75rem;
+}
+.frow{display:flex;flex-direction:column;gap:.9rem;margin-bottom:.9rem}
+.fg{display:flex;flex-direction:column;gap:.35rem}
+.fg label{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;font-size:.76rem;
+  text-transform:uppercase;letter-spacing:.1em;
+  color:rgba(245,232,199,.65);
+}
+.fg input,.fg select,.fg textarea{
+  background:rgba(245,232,199,.08);
+  border:1px solid rgba(245,232,199,.2);
+  border-radius:2px;
+  padding:.75rem 1rem;
+  color:var(--cream);
+  font-family:'IBM Plex Sans Thai',sans-serif;
+  font-size:.94rem;line-height:1.8;
+  width:100%;
+  transition:border-color .2s;
+}
+.fg input:focus,.fg select:focus,.fg textarea:focus{
+  outline:none;border-color:var(--tan);
+}
+.fg textarea{resize:vertical;min-height:95px}
+.fg select option{background:var(--jade-dk)}
+
+/* contact info */
+.cinfo{display:flex;flex-direction:column;gap:1.1rem}
+.ci{display:flex;align-items:flex-start;gap:.9rem}
+.ci__ic{
+  width:2.4rem;height:2.4rem;border-radius:50%;
+  background:rgba(255,107,26,.18);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--tan);flex-shrink:0;
+}
+.ci__lbl{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;font-size:.76rem;
+  text-transform:uppercase;letter-spacing:.09em;
+  color:var(--tan);margin-bottom:.15rem;
+}
+.ci__val{font-size:.93rem;line-height:1.7}
+.ci__val2{font-size:.82rem;color:rgba(245,232,199,.5)}
+.social{display:flex;gap:.8rem;margin-top:1rem}
+.soc-btn{
+  width:38px;height:38px;border-radius:50%;
+  background:rgba(245,232,199,.1);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--cream);
+  transition:background .2s;
+}
+.soc-btn:hover{background:var(--tan)}
+
+/* footer strip */
+.foot{
+  margin-top:3rem;padding-top:1.5rem;
+  border-top:1px solid rgba(245,232,199,.15);
+  text-align:center;
+}
+.foot__logo{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;font-size:1.35rem;
+  text-transform:uppercase;letter-spacing:.06em;
+  margin-bottom:.4rem;
+}
+.foot__logo span{color:var(--tan)}
+.foot__links{
+  display:flex;justify-content:center;flex-wrap:wrap;gap:1.2rem;
+  margin:.7rem 0;
+}
+.foot__links a{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;font-size:.82rem;
+  text-transform:uppercase;letter-spacing:.09em;
+  color:rgba(245,232,199,.5);
+  transition:color .2s;
+}
+.foot__links a:hover{color:var(--tan)}
+.foot__copy{font-size:.78rem;color:rgba(245,232,199,.38);line-height:1.7}
+
+@media(min-width:768px){
+  .contact{padding:4rem 5vw 3rem;overflow-y:auto}
+  .contact__inner{flex-direction:row;align-items:flex-start}
+  .cform{flex:1.2}
+  .contact__aside{flex:.85}
+  .frow{flex-direction:row}
+  .frow .fg{flex:1}
+}
+</style>
+</head>
+<body>
+
+<!-- Progress bar -->
+<div class="prog" id="prog"></div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <a href="#hero" class="nav__logo">Samui<span>Today</span></a>
+  <div class="nav__r">
+    <ul class="nav__links">
+      <li><a href="#tours" data-lang-th="ทัวร์" data-lang-en="Tours">ทัวร์</a></li>
+      <li><a href="#xfers" data-lang-th="รถรับส่ง" data-lang-en="Transfers">รถรับส่ง</a></li>
+      <li><a href="#about" data-lang-th="เกี่ยวกับเรา" data-lang-en="About">เกี่ยวกับเรา</a></li>
+      <li><a href="#dest" data-lang-th="จุดหมาย" data-lang-en="Destinations">จุดหมาย</a></li>
+      <li><a href="#contact" data-lang-th="ติดต่อ" data-lang-en="Contact">ติดต่อ</a></li>
+    </ul>
+    <button class="lang-sw" aria-label="สลับภาษา">
+      <i data-lucide="globe" width="14" height="14"></i>
+      <span class="lang-sw__label">TH</span>
+    </button>
+    <button class="hamburger" id="hbg" aria-label="เมนู">
+      <i data-lucide="menu" width="24" height="24"></i>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mob">
+  <button class="mob-menu__close" id="mcls" aria-label="ปิด">
+    <i data-lucide="x" width="28" height="28"></i>
+  </button>
+  <a href="#tours" data-lang-th="ทัวร์" data-lang-en="Tours">ทัวร์</a>
+  <a href="#xfers" data-lang-th="รถรับส่ง" data-lang-en="Transfers">รถรับส่ง</a>
+  <a href="#about" data-lang-th="เกี่ยวกับเรา" data-lang-en="About">เกี่ยวกับเรา</a>
+  <a href="#dest" data-lang-th="จุดหมาย" data-lang-en="Destinations">จุดหมาย</a>
+  <a href="#contact" data-lang-th="ติดต่อ" data-lang-en="Contact">ติดต่อ</a>
+</div>
+
+<!-- PANEL DOTS (desktop) -->
+<div class="dots" id="dots">
+  <div class="dot on" data-p="0"></div>
+  <div class="dot" data-p="1"></div>
+  <div class="dot" data-p="2"></div>
+  <div class="dot" data-p="3"></div>
+  <div class="dot" data-p="4"></div>
+  <div class="dot" data-p="5"></div>
+  <div class="dot" data-p="6"></div>
+</div>
+
+<!-- SCROLL CONTAINER -->
+<div class="sc" id="sc">
+
+  <!-- ===== PANEL 1: HERO ===== -->
+  <section class="panel hero" id="hero">
+    <img class="hero__bg" id="heroBg"
+         src="https://images.unsplash.com/photo-1588741145164-494800cdeda4?w=1800&h=1000&fit=crop"
+         alt="เกาะสมุย หาดเขียวขจี">
+    <!-- Retro sunburst SVG -->
+    <svg class="hero__sun" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="250" cy="250" r="250" fill="#FF6B1A"/>
+      <g stroke="#fff" stroke-width="1.5" opacity=".6">
+        <line x1="250" y1="0" x2="250" y2="500"/>
+        <line x1="0" y1="250" x2="500" y2="250"/>
+        <line x1="73.2" y1="73.2" x2="426.8" y2="426.8"/>
+        <line x1="426.8" y1="73.2" x2="73.2" y2="426.8"/>
+        <line x1="37" y1="163" x2="463" y2="337"/>
+        <line x1="463" y1="163" x2="37" y2="337"/>
+        <line x1="163" y1="37" x2="337" y2="463"/>
+        <line x1="337" y1="37" x2="163" y2="463"/>
+        <line x1="10" y1="208" x2="490" y2="292"/>
+        <line x1="490" y1="208" x2="10" y2="292"/>
+        <line x1="208" y1="10" x2="292" y2="490"/>
+        <line x1="292" y1="10" x2="208" y2="490"/>
+      </g>
+    </svg>
+
+    <div class="hero__content">
+      <div class="hero__eye" data-lang-th="เกาะสมุย ประเทศไทย" data-lang-en="KOH SAMUI, THAILAND">เกาะสมุย ประเทศไทย</div>
+      <h1 class="hero__h1" data-lang-th="สัมผัสสมุย อย่างที่ไม่เคยเป็น" data-lang-en="DISCOVER KOH SAMUI">สัมผัสสมุย อย่างที่ไม่เคยเป็น</h1>
+      <p class="hero__sub" data-lang-th="ทัวร์แท้ๆ โดยคนสมุยตัวจริง ตั้งแต่ปี 2548 — เราพาคุณไปในทุกที่ที่นักท่องเที่ยวทั่วไปไม่รู้จัก" data-lang-en="Authentic tours by real locals since 2005. We take you everywhere visitors never find on their own.">ทัวร์แท้ๆ โดยคนสมุยตัวจริง ตั้งแต่ปี 2548 — เราพาคุณไปในทุกที่ที่นักท่องเที่ยวทั่วไปไม่รู้จัก</p>
+      <div class="hero__ctas">
+        <a href="#tours" class="btn btn--fill">
+          <span data-lang-th="ดูทัวร์ทั้งหมด" data-lang-en="Explore Tours">ดูทัวร์ทั้งหมด</span>
+          <i data-lucide="arrow-right" width="16" height="16"></i>
+        </a>
+        <a href="#contact" class="btn btn--ghost" data-lang-th="จองตอนนี้" data-lang-en="Book Now">จองตอนนี้</a>
+      </div>
+    </div>
+    <div class="hero__scroll">
+      <i data-lucide="arrow-right" width="13" height="13"></i>
+      <span data-lang-th="เลื่อนดูต่อ" data-lang-en="SCROLL">เลื่อนดูต่อ</span>
+    </div>
+  </section>
+
+  <!-- ===== PANEL 2: TOURS ===== -->
+  <section class="panel tours" id="tours">
+    <div class="lbl" data-lang-th="สำรวจพร้อมเรา" data-lang-en="EXPLORE WITH US">สำรวจพร้อมเรา</div>
+    <h2 class="tours__hdg" data-lang-th="ทัวร์แนะนำ" data-lang-en="FEATURED TOURS">ทัวร์แนะนำ</h2>
+    <p class="tours__sub" data-lang-th="เลือกจากประสบการณ์ที่หลากหลาย ผจญภัยป่า ล่องเรือชมพระอาทิตย์ตก หรือดำน้ำดูปะการัง" data-lang-en="Choose from a range of crafted adventures — jungle treks, sunset cruises, or world-class coral reef diving.">เลือกจากประสบการณ์ที่หลากหลาย ผจญภัยป่า ล่องเรือชมพระอาทิตย์ตก หรือดำน้ำดูปะการัง</p>
+    <div class="tours__grid">
+      <!-- Tour 1 -->
+      <div class="tc rv">
+        <img class="tc__img" src="https://images.unsplash.com/photo-1671837827066-71d72d95cd3b?w=700&h=450&fit=crop" alt="เรือหัวโทงทะเลไทย">
+        <div class="tc__body">
+          <span class="tc__tag" data-lang-th="ยอดนิยม" data-lang-en="Popular">ยอดนิยม</span>
+          <h3 class="tc__title" data-lang-th="ล่องเรือ 3 เกาะ" data-lang-en="THREE ISLAND CRUISE">ล่องเรือ 3 เกาะ</h3>
+          <p class="tc__desc" data-lang-th="เกาะแม่วัน เกาะตะเกียบ เกาะมัดสุม — ดำน้ำ ว่ายน้ำ ชมปะการัง" data-lang-en="Mae Koh, Tong Yang, Mat Sum — snorkel, swim, and explore raw island nature.">เกาะแม่วัน เกาะตะเกียบ เกาะมัดสุม — ดำน้ำ ว่ายน้ำ ชมปะการัง</p>
+        </div>
+        <div class="tc__foot">
+          <span class="tc__price">฿1,800 / <span data-lang-th="คน" data-lang-en="pp">คน</span></span>
+          <span class="tc__dur"><i data-lucide="clock" width="12" height="12"></i> <span data-lang-th="เต็มวัน" data-lang-en="Full Day">เต็มวัน</span></span>
+        </div>
+      </div>
+      <!-- Tour 2 -->
+      <div class="tc rv d1">
+        <img class="tc__img" src="https://images.unsplash.com/photo-1637579176854-53d88fa59008?w=700&h=450&fit=crop" alt="ป่าสมุยมุมมองทางอากาศ">
+        <div class="tc__body">
+          <span class="tc__tag" data-lang-th="ผจญภัย" data-lang-en="Adventure">ผจญภัย</span>
+          <h3 class="tc__title" data-lang-th="ผจญภัยป่าสมุย" data-lang-en="JUNGLE ADVENTURE">ผจญภัยป่าสมุย</h3>
+          <p class="tc__desc" data-lang-th="น้ำตกลับ ชิงช้าเถาวัลย์ และชมวิวพาโนรามาบนยอดเขา" data-lang-en="Hidden waterfalls, rope swings, and panoramic ridge views not found in any brochure.">น้ำตกลับ ชิงช้าเถาวัลย์ และชมวิวพาโนรามาบนยอดเขา</p>
+        </div>
+        <div class="tc__foot">
+          <span class="tc__price">฿1,400 / <span data-lang-th="คน" data-lang-en="pp">คน</span></span>
+          <span class="tc__dur"><i data-lucide="clock" width="12" height="12"></i> <span data-lang-th="ครึ่งวัน" data-lang-en="Half Day">ครึ่งวัน</span></span>
+        </div>
+      </div>
+      <!-- Tour 3 -->
+      <div class="tc rv d2">
+        <img class="tc__img" src="https://images.unsplash.com/photo-1559133051-9469e0e46d6b?w=700&h=450&fit=crop" alt="พระอาทิตย์ตกทะเลไทย">
+        <div class="tc__body">
+          <span class="tc__tag" data-lang-th="โรแมนติก" data-lang-en="Romantic">โรแมนติก</span>
+          <h3 class="tc__title" data-lang-th="ล่องเรือชมพระอาทิตย์ตก" data-lang-en="SUNSET SAILING">ล่องเรือชมพระอาทิตย์ตก</h3>
+          <p class="tc__desc" data-lang-th="ยอชต์ส่วนตัว ค็อกเทล อาหารเย็นแสงเทียน และดนตรีสดยามอาทิตย์ลับขอบฟ้า" data-lang-en="Private yacht, cocktails, candlelit dinner, and live guitar as the sun melts into the sea.">ยอชต์ส่วนตัว ค็อกเทล อาหารเย็นแสงเทียน และดนตรีสดยามอาทิตย์ลับขอบฟ้า</p>
+        </div>
+        <div class="tc__foot">
+          <span class="tc__price">฿2,600 / <span data-lang-th="คน" data-lang-en="pp">คน</span></span>
+          <span class="tc__dur"><i data-lucide="clock" width="12" height="12"></i> 3h</span>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:2rem;text-align:center">
+      <a href="#contact" class="btn btn--jade">
+        <span data-lang-th="จองทัวร์" data-lang-en="Book a Tour">จองทัวร์</span>
+        <i data-lucide="arrow-right" width="16" height="16"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== PANEL 3: TRANSFERS ===== -->
+  <section class="panel xfers" id="xfers">
+    <img class="xfers__bg" src="https://images.unsplash.com/photo-1686342883261-d46890852147?w=1600&h=900&fit=crop" alt="รถรับส่งสมุย">
+    <div class="xfers__content">
+      <div class="lbl" data-lang-th="บริการรถรับส่ง" data-lang-en="TRANSPORT">บริการรถรับส่ง</div>
+      <h2 class="xfers__hdg" data-lang-th="รับ-ส่ง ทุกที่ในสมุย" data-lang-en="PRIVATE TRANSFERS">รับ-ส่ง ทุกที่ในสมุย</h2>
+      <p class="xfers__sub" data-lang-th="บริการรถรับส่งส่วนตัวโดยคนขับที่มีประสบการณ์ ตรงต่อเวลา และรู้จักสมุยดีเป็นพิเศษ" data-lang-en="Private door-to-door transfers by experienced, punctual drivers who know every corner of Samui.">บริการรถรับส่งส่วนตัวโดยคนขับที่มีประสบการณ์ ตรงต่อเวลา และรู้จักสมุยดีเป็นพิเศษ</p>
+      <div class="xfers__list">
+        <div class="xo rv">
+          <div class="xo__icon"><i data-lucide="plane-landing" width="18" height="18"></i></div>
+          <div>
+            <div class="xo__ttl" data-lang-th="รับ-ส่งสนามบิน" data-lang-en="AIRPORT TRANSFER">รับ-ส่งสนามบิน</div>
+            <p class="xo__desc" data-lang-th="รับจากสนามบินสมุยถึงที่พักโดยตรง ไม่ต้องรอแท็กซี่" data-lang-en="We meet you at arrivals and drive you straight to your hotel. No taxi queues ever.">รับจากสนามบินสมุยถึงที่พักโดยตรง ไม่ต้องรอแท็กซี่</p>
+          </div>
+        </div>
+        <div class="xo rv d1">
+          <div class="xo__icon"><i data-lucide="car" width="18" height="18"></i></div>
+          <div>
+            <div class="xo__ttl" data-lang-th="รถส่วนตัวพร้อมคนขับ" data-lang-en="PRIVATE CAR + DRIVER">รถส่วนตัวพร้อมคนขับ</div>
+            <p class="xo__desc" data-lang-th="เช่ารถรายวันพร้อมคนขับ เที่ยวตามแผนของคุณเอง ความรู้คนท้องถิ่นรวมอยู่ในราคา" data-lang-en="Hire a driver for the day. Explore at your own pace with local knowledge included.">เช่ารถรายวันพร้อมคนขับ เที่ยวตามแผนของคุณเอง ความรู้คนท้องถิ่นรวมอยู่ในราคา</p>
+          </div>
+        </div>
+        <div class="xo rv d2">
+          <div class="xo__icon"><i data-lucide="users" width="18" height="18"></i></div>
+          <div>
+            <div class="xo__ttl" data-lang-th="รถตู้กรุ๊ปทัวร์" data-lang-en="GROUP MINIVAN">รถตู้กรุ๊ปทัวร์</div>
+            <p class="xo__desc" data-lang-th="รถตู้แอร์รองรับสูงสุด 12 คน เหมาะสำหรับครอบครัวหรือกลุ่มเพื่อน" data-lang-en="Air-conditioned minivans for up to 12. Perfect for family groups and friends.">รถตู้แอร์รองรับสูงสุด 12 คน เหมาะสำหรับครอบครัวหรือกลุ่มเพื่อน</p>
+          </div>
+        </div>
+        <div class="xo rv d3">
+          <div class="xo__icon"><i data-lucide="ship" width="18" height="18"></i></div>
+          <div>
+            <div class="xo__ttl" data-lang-th="ท่าเรือและเฟอร์รี่" data-lang-en="FERRY CONNECTIONS">ท่าเรือและเฟอร์รี่</div>
+            <p class="xo__desc" data-lang-th="รับ-ส่งระหว่างท่าเรือ ท่าสุราษฎร์ธานี และท่าเรือดอนสัก ทุกเที่ยว" data-lang-en="All ferry crossings covered — Surat Thani, Don Sak, and Samui piers, day or night.">รับ-ส่งระหว่างท่าเรือ ท่าสุราษฎร์ธานี และท่าเรือดอนสัก ทุกเที่ยว</p>
+          </div>
+        </div>
+      </div>
+      <a href="#contact" class="btn btn--fill">
+        <span data-lang-th="จองรถรับส่ง" data-lang-en="Book a Transfer">จองรถรับส่ง</span>
+        <i data-lucide="arrow-right" width="16" height="16"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== PANEL 4: ABOUT ===== -->
+  <section class="panel about" id="about">
+    <div class="about__inner">
+      <div class="about__imgwrap rv">
+        <img class="about__img"
+             src="https://images.unsplash.com/photo-1596463152524-ca392d510adf?w=800&h=1000&fit=crop"
+             alt="เรือบนทะเลสมุยยามเย็น">
+        <div class="about__badge" data-lang-th="ตั้งแต่ปี 2548" data-lang-en="Since 2005">ตั้งแต่ปี 2548</div>
+      </div>
+      <div class="about__text rv d1">
+        <div class="lbl" data-lang-th="เรื่องราวของเรา" data-lang-en="OUR STORY">เรื่องราวของเรา</div>
+        <h2 class="about__hdg" data-lang-th="รากเหง้าสมุย ความภูมิใจแท้จริง" data-lang-en="BORN & RAISED ON THIS ISLAND">รากเหง้าสมุย ความภูมิใจแท้จริง</h2>
+        <p class="about__p" data-lang-th="สมุยทูเดย์เริ่มต้นในปี 2548 โดยกลุ่มเพื่อนชาวสมุยที่ต้องการแบ่งปันความรักในเกาะบ้านเกิดของตน เราเชื่อว่าการท่องเที่ยวที่ดีที่สุด คือการได้รู้จักสถานที่จากคนที่อยู่ที่นั่นจริงๆ ไม่ใช่จากคู่มือท่องเที่ยว" data-lang-en="SamuiToday started in 2005 when a group of local friends decided to share their love for this island. We believe the best travel happens when a local shows you — not a guidebook.">สมุยทูเดย์เริ่มต้นในปี 2548 โดยกลุ่มเพื่อนชาวสมุยที่ต้องการแบ่งปันความรักในเกาะบ้านเกิดของตน เราเชื่อว่าการท่องเที่ยวที่ดีที่สุด คือการได้รู้จักสถานที่จากคนที่อยู่ที่นั่นจริงๆ ไม่ใช่จากคู่มือท่องเที่ยว</p>
+        <p class="about__p" data-lang-th="ทีมงานของเราคือชาวสมุยตัวจริง รู้จักทุกหาด ทุกน้ำตก และร้านอาหารที่ดีที่สุดบนเกาะ เราภูมิใจที่ได้รับความไว้วางใจจากนักท่องเที่ยวกว่า 50,000 คน" data-lang-en="Our team are genuine Samui locals — they know every beach, jungle path, and restaurant worth eating at. Over 50,000 travellers have trusted us since we started.">ทีมงานของเราคือชาวสมุยตัวจริง รู้จักทุกหาด ทุกน้ำตก และร้านอาหารที่ดีที่สุดบนเกาะ เราภูมิใจที่ได้รับความไว้วางใจจากนักท่องเที่ยวกว่า 50,000 คน</p>
+        <div class="stats">
+          <div class="stat">
+            <div class="stat__n">20+</div>
+            <div class="stat__l" data-lang-th="ปีแห่งประสบการณ์" data-lang-en="Years Experience">ปีแห่งประสบการณ์</div>
+          </div>
+          <div class="stat">
+            <div class="stat__n">50K+</div>
+            <div class="stat__l" data-lang-th="นักท่องเที่ยวพึงพอใจ" data-lang-en="Happy Travellers">นักท่องเที่ยวพึงพอใจ</div>
+          </div>
+          <div class="stat">
+            <div class="stat__n">40+</div>
+            <div class="stat__l" data-lang-th="เส้นทางทัวร์" data-lang-en="Tour Routes">เส้นทางทัวร์</div>
+          </div>
+          <div class="stat">
+            <div class="stat__n">4.9</div>
+            <div class="stat__l" data-lang-th="คะแนน Google" data-lang-en="Google Rating">คะแนน Google</div>
+          </div>
+        </div>
+        <a href="#contact" class="btn btn--fill">
+          <span data-lang-th="พูดคุยกับทีม" data-lang-en="Talk to Our Team">พูดคุยกับทีม</span>
+          <i data-lucide="arrow-right" width="16" height="16"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PANEL 5: DESTINATIONS ===== -->
+  <section class="panel dest" id="dest">
+    <div class="lbl" data-lang-th="จุดหมายยอดนิยม" data-lang-en="TOP DESTINATIONS">จุดหมายยอดนิยม</div>
+    <h2 class="dest__hdg" data-lang-th="สำรวจสมุย" data-lang-en="EXPLORE SAMUI">สำรวจสมุย</h2>
+    <div class="dest__grid">
+      <div class="di rv">
+        <img src="https://images.unsplash.com/photo-1686056561976-8b3ed48dff7d?w=1100&h=600&fit=crop" alt="ทิวทัศน์ทางอากาศหาดเฉวง">
+        <div class="di__lbl" data-lang-th="หาดเฉวง" data-lang-en="Chaweng Beach">หาดเฉวง</div>
+      </div>
+      <div class="di rv d1">
+        <img src="https://images.unsplash.com/photo-1671468158395-795eb0f8cf8e?w=600&h=450&fit=crop" alt="เรือหัวโทงหาดสมุย">
+        <div class="di__lbl" data-lang-th="เกาะแม่วัน" data-lang-en="Koh Mae Koh">เกาะแม่วัน</div>
+      </div>
+      <div class="di rv d2">
+        <img src="https://images.unsplash.com/photo-1759414883338-c2d348ec889e?w=600&h=450&fit=crop" alt="ปะการังใต้ทะเล">
+        <div class="di__lbl" data-lang-th="แนวปะการัง" data-lang-en="Coral Reefs">แนวปะการัง</div>
+      </div>
+      <div class="di rv d3">
+        <img src="https://images.unsplash.com/photo-1446822800434-3873731dc998?w=600&h=450&fit=crop" alt="หาดละไมสมุย">
+        <div class="di__lbl" data-lang-th="หาดละไม" data-lang-en="Lamai Beach">หาดละไม</div>
+      </div>
+      <div class="di rv d4">
+        <img src="https://images.unsplash.com/photo-1518856524844-e9666397b23e?w=600&h=450&fit=crop" alt="สกู๊ตเตอร์เที่ยวสมุย">
+        <div class="di__lbl" data-lang-th="รอบเกาะ 1 วัน" data-lang-en="Island Loop">รอบเกาะ 1 วัน</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PANEL 6: TESTIMONIALS ===== -->
+  <section class="panel testi" id="testi">
+    <div class="testi__deco" aria-hidden="true">"</div>
+    <div class="lbl" data-lang-th="รีวิวจากลูกค้า" data-lang-en="GUEST REVIEWS">รีวิวจากลูกค้า</div>
+    <h2 class="testi__hdg" data-lang-th="บอกต่อกันปากต่อปาก" data-lang-en="WORD OF MOUTH">บอกต่อกันปากต่อปาก</h2>
+    <p class="testi__meta" data-lang-th="คะแนน 4.9/5 จากรีวิวกว่า 2,400 รายการบน Google และ TripAdvisor" data-lang-en="4.9/5 from over 2,400 reviews on Google and TripAdvisor.">คะแนน 4.9/5 จากรีวิวกว่า 2,400 รายการบน Google และ TripAdvisor</p>
+    <div class="testi__grid">
+      <div class="tk rv">
+        <div class="stars">
+          <i data-lucide="star" width="13" height="13" style="fill:var(--tan)"></i>
+          <i data-lucide="star" width="13" height="13" style="fill:var(--tan)"></i>
+          <i data-lucide="star" width="13" height="13" style="fill:var(--tan)"></i>
+          <i data-lucide="star" width="13" height="13" style="fill:var(--tan)"></i>
+          <i data-lucide="star" width="13" height="13" style="fill:var(--tan)"></i>
+        </div>
+        <span class="tk__q">"</span>
+        <p class="tk__text" data-lang-th="ไกด์พาไปในที่ที่ไม่มีในแผนที่เลยค่ะ น้ำตกลับ ชายหาดส่วนตัว อาหารทะเลสด — ดีมากๆ จะกลับมาอีกแน่นอน" data-lang-en="Our guide took us places that aren't on any map — hidden waterfall, private beach, freshest seafood. Absolute highlight of the trip.">ไกด์พาไปในที่ที่ไม่มีในแผนที่เลยค่ะ น้ำตกลับ ชายหาดส่วนตัว อาหารทะเลสด — ดีมากๆ จะกลับมาอีกแน่นอน</p>
+        <div class="tk__author">
+          <img class="tk__av" src="https://images.unsplash.com/photo-1667722341972-3cd923cb3260?w=80&h=80&fit=crop" alt="Emma W.">
+          <div>
+            <div class="tk__name">Emma W.</div>
+            <div class="tk__orig" data-lang-th="นักท่องเที่ยวจากสหราชอาณาจักร" data-lang-en="Traveller from UK">นักท่องเที่ยวจากสหราชอาณาจักร</div>
+          </div>
+        </div>
+      </div>
+      <div class="tk rv d1">
+        <div class="stars">
+          <i data-lucide="star" width="13" height="13" style="fill:var(--tan)"></i>
+          <i data-lucide="star" width="13" height="13" style="fill:var(--tan)"></i>
+          <i data-lucide="star" width="13" height="13" style="fill:var(--tan)"></i>
+          <i data-lucide="star" width="13" height="13" style="fill:var(--tan)"></i>
+          <i data-lucide="star" width="13" height="13" style="fill:var(--tan)"></i>
+        </div>
+        <span class="tk__q">"</span>
+        <p class="tk__text" data-lang-th="จองรถรับส่งสนามบินและทัวร์เรือ 2 วัน ทุกอย่างราบรื่นมากครับ คนขับตรงเวลา ไกด์ยิ้มแย้มและรู้ทุกอย่างบนเกาะ" data-lang-en="Booked airport transfer and two days of boat tours. Everything was seamless — drivers on time, guides cheerful and full of local knowledge.">จองรถรับส่งสนามบินและทัวร์เรือ 2 วัน ทุกอย่างราบรื่นมากครับ คนขับตรงเวลา ไกด์ยิ้มแย้มและรู้ทุกอย่างบนเกาะ</p>
+        <div class="tk__author">
+          <img class="tk__av" src="https://images.unsplash.com/photo-1706381068085-29fe6c2afe51?w=80&h=80&fit=crop" alt="Kenji & Yumi">
+          <div>
+            <div class="tk__name">Kenji & Yumi</div>
+            <div class="tk__orig" data-lang-th="นักท่องเที่ยวจากญี่ปุ่น" data-lang-en="Travellers from Japan">นักท่องเที่ยวจากญี่ปุ่น</div>
+          </div>
+        </div>
+      </div>
+      <div class="tk rv d2">
+        <div class="stars">
+          <i data-lucide="star" width="13" height="13" style="fill:var(--tan)"></i>
+          <i data-lucide="star" width="13" height="13" style="fill:var(--tan)"></i>
+          <i data-lucide="star" width="13" height="13" style="fill:var(--tan)"></i>
+          <i data-lucide="star" width="13" height="13" style="fill:var(--tan)"></i>
+          <i data-lucide="star" width="13" height="13" style="fill:var(--tan)"></i>
+        </div>
+        <span class="tk__q">"</span>
+        <p class="tk__text" data-lang-th="พาครอบครัว 8 คนมา รถตู้สะอาดมาก ไกด์ดูแลเด็กๆ ดีมาก ราคาคุ้มค่าจริงๆ ขอบคุณมากค่ะ" data-lang-en="Came with 8 family members including kids. Minivan spotless, guide was brilliant with the children, and prices are genuinely fair.">พาครอบครัว 8 คนมา รถตู้สะอาดมาก ไกด์ดูแลเด็กๆ ดีมาก ราคาคุ้มค่าจริงๆ ขอบคุณมากค่ะ</p>
+        <div class="tk__author">
+          <div class="tk__av--init">S</div>
+          <div>
+            <div class="tk__name">Sophie M.</div>
+            <div class="tk__orig" data-lang-th="นักท่องเที่ยวจากออสเตรเลีย" data-lang-en="Traveller from Australia">นักท่องเที่ยวจากออสเตรเลีย</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PANEL 7: CONTACT + FOOTER ===== -->
+  <section class="panel contact" id="contact">
+    <div style="position:relative;z-index:1">
+      <div class="lbl" data-lang-th="ติดต่อจองทัวร์" data-lang-en="BOOK YOUR TRIP">ติดต่อจองทัวร์</div>
+      <h2 class="contact__hdg" data-lang-th="พร้อมออกเดินทาง?" data-lang-en="READY TO EXPLORE?">พร้อมออกเดินทาง?</h2>
+      <p class="contact__sub" data-lang-th="ส่งข้อความหาเรา เราตอบภายใน 2 ชั่วโมง ทุกวัน 7:00–22:00 น." data-lang-en="Send us a message — we reply within 2 hours, every day from 7am to 10pm.">ส่งข้อความหาเรา เราตอบภายใน 2 ชั่วโมง ทุกวัน 7:00–22:00 น.</p>
+    </div>
+
+    <div class="contact__inner">
+      <!-- Form -->
+      <form class="cform" onsubmit="return false;">
+        <div class="frow">
+          <div class="fg">
+            <label data-lang-th="ชื่อ" data-lang-en="Name">ชื่อ</label>
+            <input type="text" placeholder="John Smith">
+          </div>
+          <div class="fg">
+            <label data-lang-th="อีเมล" data-lang-en="Email">อีเมล</label>
+            <input type="email" placeholder="john@example.com">
+          </div>
+        </div>
+        <div class="frow">
+          <div class="fg">
+            <label data-lang-th="บริการที่สนใจ" data-lang-en="Service">บริการที่สนใจ</label>
+            <select>
+              <option data-lang-th="— เลือกบริการ —" data-lang-en="— Select —">— เลือกบริการ —</option>
+              <option data-lang-th="ทัวร์เกาะ 3 เกาะ" data-lang-en="Three Island Cruise">ทัวร์เกาะ 3 เกาะ</option>
+              <option data-lang-th="ผจญภัยป่าสมุย" data-lang-en="Jungle Adventure">ผจญภัยป่าสมุย</option>
+              <option data-lang-th="ล่องเรือชมพระอาทิตย์ตก" data-lang-en="Sunset Cruise">ล่องเรือชมพระอาทิตย์ตก</option>
+              <option data-lang-th="รถรับส่งสนามบิน" data-lang-en="Airport Transfer">รถรับส่งสนามบิน</option>
+              <option data-lang-th="รถส่วนตัวพร้อมคนขับ" data-lang-en="Private Car + Driver">รถส่วนตัวพร้อมคนขับ</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label data-lang-th="วันที่" data-lang-en="Date">วันที่</label>
+            <input type="date">
+          </div>
+        </div>
+        <div class="fg" style="margin-bottom:1.1rem">
+          <label data-lang-th="ข้อความเพิ่มเติม" data-lang-en="Message">ข้อความเพิ่มเติม</label>
+          <textarea rows="3" placeholder="..."></textarea>
+        </div>
+        <button type="submit" class="btn btn--fill" style="width:100%;justify-content:center">
+          <span data-lang-th="ส่งข้อความ" data-lang-en="Send Message">ส่งข้อความ</span>
+          <i data-lucide="send" width="15" height="15"></i>
+        </button>
+      </form>
+
+      <!-- Info -->
+      <div class="contact__aside">
+        <div class="cinfo" style="padding-top:1rem">
+          <div class="ci">
+            <div class="ci__ic"><i data-lucide="phone" width="17" height="17"></i></div>
+            <div>
+              <div class="ci__lbl" data-lang-th="โทรศัพท์" data-lang-en="Phone">โทรศัพท์</div>
+              <div class="ci__val">+66 77 123 456</div>
+              <div class="ci__val2">LINE: @samuiToday</div>
+            </div>
+          </div>
+          <div class="ci">
+            <div class="ci__ic"><i data-lucide="mail" width="17" height="17"></i></div>
+            <div>
+              <div class="ci__lbl" data-lang-th="อีเมล" data-lang-en="Email">อีเมล</div>
+              <div class="ci__val">hello@samuiToday.com</div>
+            </div>
+          </div>
+          <div class="ci">
+            <div class="ci__ic"><i data-lucide="map-pin" width="17" height="17"></i></div>
+            <div>
+              <div class="ci__lbl" data-lang-th="ที่อยู่" data-lang-en="Address">ที่อยู่</div>
+              <div class="ci__val" data-lang-th="หาดเฉวง เกาะสมุย สุราษฎร์ธานี 84320" data-lang-en="Chaweng Beach, Koh Samui, Surat Thani 84320">หาดเฉวง เกาะสมุย สุราษฎร์ธานี 84320</div>
+            </div>
+          </div>
+          <div class="ci">
+            <div class="ci__ic"><i data-lucide="clock" width="17" height="17"></i></div>
+            <div>
+              <div class="ci__lbl" data-lang-th="เวลาทำการ" data-lang-en="Hours">เวลาทำการ</div>
+              <div class="ci__val" data-lang-th="ทุกวัน 07:00 – 22:00 น." data-lang-en="Every day 7:00am – 10:00pm">ทุกวัน 07:00 – 22:00 น.</div>
+            </div>
+          </div>
+          <div class="social">
+            <a href="#" class="soc-btn" aria-label="Facebook"><i data-lucide="facebook" width="17" height="17"></i></a>
+            <a href="#" class="soc-btn" aria-label="Instagram"><i data-lucide="instagram" width="17" height="17"></i></a>
+            <a href="#" class="soc-btn" aria-label="LINE"><i data-lucide="message-circle" width="17" height="17"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer strip (inside last panel so it's reachable on desktop too) -->
+    <footer class="foot">
+      <div class="foot__logo">Samui<span>Today</span></div>
+      <div class="foot__links">
+        <a href="#tours" data-lang-th="ทัวร์" data-lang-en="Tours">ทัวร์</a>
+        <a href="#xfers" data-lang-th="รถรับส่ง" data-lang-en="Transfers">รถรับส่ง</a>
+        <a href="#about" data-lang-th="เกี่ยวกับเรา" data-lang-en="About">เกี่ยวกับเรา</a>
+        <a href="#contact" data-lang-th="ติดต่อ" data-lang-en="Contact">ติดต่อ</a>
+      </div>
+      <p class="foot__copy" data-lang-th="© 2548–2568 สมุยทูเดย์ • เกาะสมุย ประเทศไทย • สงวนลิขสิทธิ์ทุกประการ" data-lang-en="© 2005–2025 SamuiToday.com • Koh Samui, Thailand • All rights reserved">© 2548–2568 สมุยทูเดย์ • เกาะสมุย ประเทศไทย • สงวนลิขสิทธิ์ทุกประการ</p>
+    </footer>
+  </section>
+
+</div><!-- /sc -->
+
+<script>
+(function(){
+  var sc = document.getElementById('sc');
+  var nav = document.getElementById('nav');
+  var panels = document.querySelectorAll('.panel');
+  var dots = document.querySelectorAll('.dot');
+  var prog = document.getElementById('prog');
+  var heroBg = document.getElementById('heroBg');
+  var hbg = document.getElementById('hbg');
+  var mob = document.getElementById('mob');
+  var mcls = document.getElementById('mcls');
+
+  function isDesk(){ return window.innerWidth >= 768; }
+
+  /* ----- HAMBURGER ----- */
+  hbg.addEventListener('click', function(){
+    mob.classList.add('open');
+    if(!isDesk()) document.body.style.overflow = 'hidden';
+  });
+  function closeMob(){
+    mob.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  mcls.addEventListener('click', closeMob);
+  mob.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', closeMob); });
+
+  /* ----- ANCHOR SCROLL ----- */
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      var id = a.getAttribute('href').replace('#','');
+      var target = document.getElementById(id);
+      if(!target) return;
+      if(isDesk()){
+        e.preventDefault();
+        sc.scrollTo({ left: target.offsetLeft, behavior:'smooth' });
+      }
+    });
+  });
+
+  /* ----- DOT NAVIGATION ----- */
+  dots.forEach(function(d){
+    d.addEventListener('click', function(){
+      var idx = parseInt(d.getAttribute('data-p'));
+      if(panels[idx]) sc.scrollTo({ left: panels[idx].offsetLeft, behavior:'smooth' });
+    });
+  });
+
+  /* ----- WHEEL + KEYBOARD NAVIGATION (desktop) ----- */
+  function curIndex(){
+    var sl = sc.scrollLeft, best = 0, bestD = Infinity;
+    panels.forEach(function(p, i){ var dd = Math.abs(p.offsetLeft - sl); if(dd < bestD){ bestD = dd; best = i; } });
+    return best;
+  }
+  function goTo(i){
+    i = Math.max(0, Math.min(panels.length - 1, i));
+    if(panels[i]) sc.scrollTo({ left: panels[i].offsetLeft, behavior:'smooth' });
+  }
+  var wheelLock = false;
+  sc.addEventListener('wheel', function(e){
+    if(!isDesk()) return;                                  /* mobile keeps native vertical scroll */
+    if(Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;    /* let trackpad horizontal gestures scroll natively */
+    e.preventDefault();                                    /* turn vertical wheel into panel slide */
+    if(wheelLock) return;
+    wheelLock = true;
+    setTimeout(function(){ wheelLock = false; }, 650);
+    goTo(curIndex() + (e.deltaY > 0 ? 1 : -1));
+  }, { passive: false });
+  window.addEventListener('keydown', function(e){
+    if(!isDesk()) return;
+    if(e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === 'PageDown'){ e.preventDefault(); goTo(curIndex() + 1); }
+    else if(e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'PageUp'){ e.preventDefault(); goTo(curIndex() - 1); }
+  });
+
+  /* ----- SCROLL STATE (desktop) ----- */
+  function onScroll(){
+    if(!isDesk()) return;
+    var sl = sc.scrollLeft;
+    var maxSl = sc.scrollWidth - sc.clientWidth;
+    prog.style.width = (maxSl > 0 ? (sl / maxSl * 100) : 0) + '%';
+    panels.forEach(function(p, i){
+      if(Math.abs(p.offsetLeft - sl) < window.innerWidth / 2){
+        dots.forEach(function(d){ d.classList.remove('on'); });
+        if(dots[i]) dots[i].classList.add('on');
+      }
+    });
+    nav.classList.toggle('shrunk', sl > 60);
+  }
+  sc.addEventListener('scroll', onScroll, { passive: true });
+
+  /* ----- NAVBAR (mobile) ----- */
+  window.addEventListener('scroll', function(){
+    if(!isDesk()) nav.classList.toggle('shrunk', window.scrollY > 60);
+  }, { passive: true });
+
+  /* ----- REVEAL (IntersectionObserver) ----- */
+  var rvObs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting) e.target.classList.add('on');
+    });
+  }, { threshold: 0.14 });
+  document.querySelectorAll('.rv').forEach(function(el){ rvObs.observe(el); });
+
+  /* ----- HERO PARALLAX ----- */
+  if(heroBg){
+    heroBg.style.transform = 'scale(1.06)';
+    sc.addEventListener('scroll', function(){
+      if(isDesk()){
+        var x = sc.scrollLeft;
+        heroBg.style.transform = 'scale(1.06) translateX(' + (x * 0.04) + 'px)';
+      }
+    }, { passive: true });
+    window.addEventListener('scroll', function(){
+      if(!isDesk()){
+        var y = window.scrollY;
+        heroBg.style.transform = 'scale(1.06) translateY(' + (y * 0.14) + 'px)';
+      }
+    }, { passive: true });
+  }
+})();
+</script>
+
+<!-- Language switcher — EXACT required script -->
+<script>
+(function(){var K='site-lang',L=localStorage.getItem(K)||'th';function S(l){L=l;localStorage.setItem(K,l);document.documentElement.lang=l;document.querySelectorAll('[data-lang-th]').forEach(function(e){var t=e.getAttribute('data-lang-'+l);if(t!==null){e.textContent=t}});var lb=document.querySelector('.lang-sw__label');if(lb){lb.textContent=l.toUpperCase()}}var sw=document.querySelector('.lang-sw');if(sw){sw.addEventListener('click',function(){S(L==='th'?'en':'th')});sw.style.cursor='pointer'}if(L!=='th'){S(L)}})();
+</script>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>
