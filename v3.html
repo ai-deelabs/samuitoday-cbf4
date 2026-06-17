@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SamuiToday – ทัวร์และรถรับส่งส่วนตัวบนเกาะสมุย</title>
+<meta name="description" content="บริการทัวร์และรถรับส่งส่วนตัวบนเกาะสมุย โดยคนท้องถิ่นที่ไว้วางใจได้ตั้งแต่ปี 2548">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@0.460.0"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --black:#0A0E12;
+  --black2:#0F1419;
+  --black3:#161C24;
+  --coral:#FF3D5A;
+  --coral-dim:#CC2E46;
+  --white:#F5F0EB;
+  --white-dim:rgba(245,240,235,0.7);
+  --glass:rgba(15,20,25,0.65);
+  --glass-border:rgba(255,255,255,0.08);
+  --glass-light:rgba(255,255,255,0.04);
+  --font-display:'Cormorant Garamond',serif;
+  --font-body:'IBM Plex Sans Thai','Sukhumvit Set',sans-serif;
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  background:var(--black);
+  color:var(--white);
+  font-family:var(--font-body);
+  font-size:16px;
+  line-height:1.8;
+  word-break:break-word;
+  overflow-wrap:break-word;
+  overflow-x:hidden;
+}
+
+img{display:block;width:100%;height:auto;object-fit:cover}
+
+a{color:inherit;text-decoration:none}
+
+/* Thai: zero letter-spacing in Thai mode */
+html[lang="th"] [data-lang-th]{letter-spacing:0 !important}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--black)}
+::-webkit-scrollbar-thumb{background:var(--coral-dim);border-radius:2px}
+
+/* ══════════════ NAV ══════════════ */
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:1.25rem 1.5rem;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:background .4s,padding .4s,backdrop-filter .4s;
+}
+#nav.scrolled{
+  background:rgba(10,14,18,0.92);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  padding:.85rem 1.5rem;
+  border-bottom:1px solid var(--glass-border);
+}
+.nav-logo{
+  font-family:var(--font-display);
+  font-size:1.45rem;
+  font-weight:600;
+  letter-spacing:.02em;
+  color:var(--white);
+}
+.nav-logo span{color:var(--coral)}
+
+.nav-right{display:flex;align-items:center;gap:1.25rem}
+
+.nav-links{
+  display:none;
+  list-style:none;
+  align-items:center;
+  gap:1.75rem;
+}
+.nav-links a{
+  font-size:.82rem;
+  font-weight:500;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--white-dim);
+  transition:color .25s;
+  padding:.5rem 0;
+}
+.nav-links a:hover{color:var(--coral)}
+
+.lang-sw{
+  display:flex;align-items:center;gap:.35rem;
+  font-size:.78rem;font-weight:500;
+  color:var(--white-dim);
+  letter-spacing:.04em;
+  padding:.4rem .6rem;
+  border:1px solid var(--glass-border);
+  border-radius:4px;
+  transition:color .25s,border-color .25s;
+  background:transparent;
+}
+.lang-sw:hover{color:var(--white);border-color:rgba(255,255,255,0.2)}
+.lang-sw svg{opacity:.7;flex-shrink:0}
+
+.hamburger{
+  display:flex;flex-direction:column;justify-content:center;
+  gap:5px;cursor:pointer;padding:.5rem;
+  background:none;border:none;
+}
+.hamburger span{
+  display:block;width:22px;height:2px;
+  background:var(--white);border-radius:2px;
+  transition:transform .3s,opacity .3s;
+}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+.mobile-menu{
+  display:none;
+  position:fixed;top:0;left:0;right:0;bottom:0;z-index:99;
+  background:rgba(10,14,18,0.97);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:2.5rem;
+}
+.mobile-menu.open{display:flex}
+.mobile-menu a{
+  font-family:var(--font-display);
+  font-size:2.2rem;font-weight:600;
+  color:var(--white-dim);
+  letter-spacing:.02em;
+  transition:color .25s;
+  padding:.6rem 0;
+}
+.mobile-menu a:hover{color:var(--coral)}
+.mobile-menu-cta{
+  margin-top:.5rem;
+  padding:.9rem 2.5rem;
+  background:var(--coral);
+  color:var(--white);
+  border-radius:50px;
+  font-family:var(--font-body);
+  font-size:.9rem;
+  font-weight:600;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+}
+
+@media(min-width:768px){
+  .nav-links{display:flex}
+  .hamburger{display:none}
+  #nav{padding:1.5rem 3rem}
+  #nav.scrolled{padding:1rem 3rem}
+}
+@media(min-width:1200px){
+  #nav{padding:1.5rem 5rem}
+  #nav.scrolled{padding:1rem 5rem}
+}
+
+/* ══════════════ HERO ══════════════ */
+#hero{
+  position:relative;
+  height:100svh;min-height:600px;
+  display:flex;align-items:flex-end;
+  overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background-image:url('https://images.unsplash.com/photo-1608480176234-c3fdfe59e988?w=1600&h=1000&fit=crop');
+  background-size:cover;background-position:center;
+  transform:scale(1.08);
+  animation:heroZoom 12s ease-out forwards;
+}
+@keyframes heroZoom{to{transform:scale(1)}}
+
+.hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(
+    to top,
+    rgba(10,14,18,1) 0%,
+    rgba(10,14,18,0.7) 30%,
+    rgba(10,14,18,0.2) 60%,
+    rgba(10,14,18,0.05) 100%
+  );
+}
+.hero-content{
+  position:relative;z-index:2;
+  padding:2.5rem 1.5rem 3.5rem;
+  max-width:900px;
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-size:.72rem;font-weight:600;
+  letter-spacing:.15em;text-transform:uppercase;
+  color:var(--coral);
+  margin-bottom:1.25rem;
+}
+.hero-eyebrow-line{width:30px;height:1px;background:var(--coral)}
+
+.hero-title{
+  font-family:var(--font-display);
+  font-size:clamp(2.8rem,9vw,7.5rem);
+  font-weight:300;
+  line-height:1.45;
+  color:var(--white);
+  letter-spacing:-.01em;
+  margin-bottom:1.5rem;
+  padding-top:.3em;
+}
+.hero-title em{
+  font-style:italic;
+  color:var(--coral);
+}
+.hero-sub{
+  font-size:clamp(.9rem,2vw,1.05rem);
+  font-weight:300;
+  color:var(--white-dim);
+  line-height:1.9;
+  max-width:540px;
+  margin-bottom:2rem;
+}
+.hero-actions{display:flex;flex-wrap:wrap;gap:1rem;align-items:center}
+
+.btn-primary{
+  display:inline-flex;align-items:center;gap:.6rem;
+  padding:.9rem 2rem;
+  background:var(--coral);
+  color:var(--white);
+  border-radius:50px;
+  font-weight:600;
+  font-size:.9rem;
+  letter-spacing:.04em;
+  transition:background .25s,transform .25s,box-shadow .25s;
+  min-height:44px;
+}
+.btn-primary:hover{
+  background:var(--coral-dim);
+  transform:translateY(-2px);
+  box-shadow:0 12px 32px rgba(255,61,90,.35);
+}
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:.6rem;
+  padding:.9rem 1.75rem;
+  border:1px solid rgba(245,240,235,.25);
+  color:var(--white);
+  border-radius:50px;
+  font-weight:500;
+  font-size:.9rem;
+  letter-spacing:.04em;
+  transition:border-color .25s,background .25s;
+  min-height:44px;
+}
+.btn-ghost:hover{border-color:var(--white);background:rgba(255,255,255,.06)}
+
+.hero-scroll-hint{
+  position:absolute;bottom:2.5rem;right:1.5rem;
+  display:flex;flex-direction:column;align-items:center;gap:.5rem;
+  font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--white-dim);opacity:.6;
+}
+.hero-scroll-hint-line{
+  width:1px;height:40px;
+  background:linear-gradient(to bottom,var(--white-dim),transparent);
+  animation:scrollPulse 2s infinite;
+}
+@keyframes scrollPulse{0%,100%{opacity:.4;transform:scaleY(1)}50%{opacity:1;transform:scaleY(1.1)}}
+
+@media(min-width:768px){
+  .hero-content{padding:4rem 3rem 5rem}
+}
+@media(min-width:1200px){
+  .hero-content{padding:5rem 5rem 6rem}
+}
+
+/* ══════════════ STATS STRIP ══════════════ */
+#stats{
+  position:relative;z-index:3;
+  padding:0 1.5rem;
+  margin-top:-2px;
+}
+.stats-inner{
+  background:var(--glass);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border:1px solid var(--glass-border);
+  border-radius:16px;
+  padding:1.75rem 1.5rem;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1.5rem 1rem;
+  margin:0 auto;
+  max-width:960px;
+}
+.stat-item{text-align:center}
+.stat-number{
+  font-family:var(--font-display);
+  font-size:2.4rem;font-weight:600;
+  color:var(--coral);
+  line-height:1.1;
+}
+.stat-label{
+  font-size:.75rem;font-weight:500;
+  color:var(--white-dim);
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  margin-top:.25rem;
+  line-height:1.8;
+}
+@media(min-width:600px){
+  .stats-inner{grid-template-columns:repeat(4,1fr)}
+}
+@media(min-width:768px){
+  #stats{padding:0 3rem;margin-top:-3rem}
+}
+@media(min-width:1200px){
+  #stats{padding:0 5rem}
+}
+
+/* ══════════════ SECTION SHARED ══════════════ */
+section{padding:5rem 1.5rem}
+.section-label{
+  font-size:.7rem;font-weight:600;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:var(--coral);
+  display:flex;align-items:center;gap:.6rem;
+  margin-bottom:1rem;
+}
+.section-label::before{content:'';display:block;width:24px;height:1px;background:var(--coral)}
+
+.section-title{
+  font-family:var(--font-display);
+  font-size:clamp(2rem,5vw,3.8rem);
+  font-weight:300;
+  line-height:1.5;
+  color:var(--white);
+  letter-spacing:-.01em;
+  padding-top:.15em;
+}
+.section-title em{font-style:italic;color:var(--coral)}
+
+.section-body{
+  font-size:.95rem;font-weight:300;
+  color:var(--white-dim);
+  line-height:1.9;
+  max-width:580px;
+}
+
+@media(min-width:768px){section{padding:7rem 3rem}}
+@media(min-width:1200px){section{padding:8rem 5rem}}
+
+/* ══════════════ SERVICES ══════════════ */
+#services{background:var(--black)}
+
+.services-header{margin-bottom:4rem;max-width:680px}
+
+.services-accordion{display:flex;flex-direction:column;gap:.75rem}
+
+.acc-item{
+  border:1px solid var(--glass-border);
+  border-radius:12px;
+  overflow:hidden;
+  transition:border-color .3s;
+}
+.acc-item.active{border-color:rgba(255,61,90,.3)}
+
+.acc-trigger{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.4rem 1.5rem;
+  cursor:pointer;
+  background:var(--glass-light);
+  transition:background .25s;
+  gap:1rem;
+  min-height:44px;
+}
+.acc-trigger:hover{background:rgba(255,255,255,.05)}
+
+.acc-trigger-left{display:flex;align-items:center;gap:1rem}
+.acc-num{
+  font-family:var(--font-display);
+  font-size:1.1rem;font-weight:600;
+  color:var(--coral);
+  min-width:2rem;
+}
+.acc-name{
+  font-family:var(--font-display);
+  font-size:1.25rem;font-weight:400;
+  color:var(--white);
+  line-height:1.5;
+}
+.acc-icon{
+  color:var(--white-dim);
+  flex-shrink:0;
+  transition:transform .3s,color .3s;
+}
+.acc-item.active .acc-icon{transform:rotate(45deg);color:var(--coral)}
+
+.acc-body{
+  max-height:0;overflow:hidden;
+  transition:max-height .45s cubic-bezier(.4,0,.2,1);
+}
+.acc-item.active .acc-body{max-height:600px}
+
+.acc-inner{
+  padding:0 1.5rem 1.75rem;
+  display:flex;flex-direction:column;gap:1.25rem;
+}
+.acc-img{
+  border-radius:10px;
+  overflow:hidden;
+  height:220px;
+}
+.acc-img img{height:100%;object-fit:cover;transition:transform .5s}
+.acc-item.active .acc-img img{transform:scale(1.03)}
+
+.acc-desc{
+  font-size:.9rem;font-weight:300;
+  color:var(--white-dim);line-height:1.9;
+}
+.acc-tags{display:flex;flex-wrap:wrap;gap:.5rem}
+.acc-tag{
+  font-size:.72rem;font-weight:500;letter-spacing:.06em;
+  text-transform:uppercase;
+  padding:.45rem .9rem;
+  border:1px solid var(--glass-border);
+  border-radius:50px;
+  color:var(--white-dim);
+}
+
+@media(min-width:768px){
+  .acc-inner{flex-direction:row;gap:2rem}
+  .acc-img{width:280px;flex-shrink:0;height:200px}
+}
+
+/* ══════════════ DESTINATIONS ══════════════ */
+#destinations{
+  background:var(--black2);
+  padding-left:0;padding-right:0;
+  overflow:hidden;
+}
+.dest-header{padding:0 1.5rem;margin-bottom:2.5rem}
+
+.dest-scroll{
+  display:flex;gap:1.25rem;
+  padding:0 1.5rem 2.5rem;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+.dest-scroll::-webkit-scrollbar{display:none}
+
+.dest-card{
+  flex-shrink:0;
+  width:280px;
+  border-radius:16px;
+  overflow:hidden;
+  position:relative;
+  scroll-snap-align:start;
+  cursor:pointer;
+}
+.dest-card:hover .dest-img{transform:scale(1.06)}
+.dest-img{
+  height:380px;
+  transition:transform .6s cubic-bezier(.4,0,.2,1);
+}
+.dest-img img{height:100%;object-fit:cover}
+.dest-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(10,14,18,.9) 0%,rgba(10,14,18,.1) 60%);
+}
+.dest-info{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:1.5rem 1.25rem;
+}
+.dest-name{
+  font-family:var(--font-display);
+  font-size:1.5rem;font-weight:400;
+  color:var(--white);
+  line-height:1.6;
+  margin-bottom:.35rem;
+}
+.dest-meta{
+  font-size:.75rem;font-weight:500;
+  color:var(--coral);
+  letter-spacing:.08em;text-transform:uppercase;
+  display:flex;align-items:center;gap:.4rem;
+}
+
+@media(min-width:768px){
+  .dest-header{padding:0 3rem}
+  .dest-scroll{padding:0 3rem 3rem;gap:1.5rem}
+  .dest-card{width:340px}
+}
+
+/* ══════════════ ABOUT ══════════════ */
+#about{background:var(--black)}
+
+.about-wrap{
+  display:flex;
+  flex-direction:column;
+  gap:3rem;
+}
+.about-visual{
+  position:relative;
+}
+.about-main-img{
+  border-radius:16px;
+  overflow:hidden;
+  height:340px;
+}
+.about-main-img img{height:100%;object-fit:cover}
+
+.about-badge{
+  position:absolute;
+  bottom:-1.5rem;right:-0.5rem;
+  width:110px;height:110px;
+  background:var(--coral);
+  border-radius:50%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  border:4px solid var(--black);
+}
+.about-badge-num{
+  font-family:var(--font-display);
+  font-size:2rem;font-weight:700;
+  color:var(--white);
+  line-height:1;
+}
+.about-badge-txt{
+  font-size:.6rem;font-weight:600;
+  color:rgba(245,240,235,.8);
+  text-align:center;
+  line-height:1.8;
+  padding:.25rem .5rem 0;
+}
+
+.about-text{padding-top:1rem}
+.about-text .section-title{margin-bottom:1.25rem}
+.about-text .section-body{margin-bottom:2rem}
+
+.about-features{
+  display:flex;flex-direction:column;gap:1rem;
+  margin-bottom:2rem;
+}
+.about-feat{
+  display:flex;align-items:flex-start;gap:.9rem;
+  font-size:.88rem;font-weight:300;
+  color:var(--white-dim);
+  line-height:1.85;
+}
+.about-feat-icon{
+  width:36px;height:36px;
+  border-radius:8px;
+  background:rgba(255,61,90,.12);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  color:var(--coral);
+  margin-top:.1rem;
+}
+
+@media(min-width:900px){
+  .about-wrap{flex-direction:row;align-items:center;gap:4rem}
+  .about-visual{flex:1;min-width:0}
+  .about-text{flex:1;min-width:0}
+  .about-main-img{height:480px}
+  .about-badge{bottom:-2rem;right:-1.5rem;width:130px;height:130px}
+  .about-badge-num{font-size:2.4rem}
+}
+
+/* ══════════════ PROCESS ══════════════ */
+#process{
+  background:var(--black2);
+  overflow:hidden;
+  position:relative;
+}
+.process-bg-text{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-family:var(--font-display);
+  font-size:clamp(8rem,25vw,18rem);
+  font-weight:700;font-style:italic;
+  color:rgba(255,255,255,.018);
+  white-space:nowrap;
+  pointer-events:none;user-select:none;
+  letter-spacing:-.03em;
+}
+
+.process-header{margin-bottom:3.5rem}
+.process-steps{
+  display:flex;flex-direction:column;gap:2rem;
+  position:relative;z-index:1;
+}
+.process-step{
+  display:flex;gap:1.5rem;align-items:flex-start;
+}
+.step-num-wrap{
+  flex-shrink:0;
+  position:relative;
+}
+.step-num{
+  width:52px;height:52px;
+  border-radius:50%;
+  border:1px solid var(--glass-border);
+  background:var(--glass);
+  backdrop-filter:blur(12px);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);
+  font-size:1.3rem;font-weight:600;
+  color:var(--coral);
+}
+.step-line{
+  position:absolute;left:50%;top:52px;
+  transform:translateX(-50%);
+  width:1px;height:calc(100% + 2rem);
+  background:linear-gradient(to bottom,var(--glass-border),transparent);
+}
+.process-step:last-child .step-line{display:none}
+.step-content{padding-top:.6rem}
+.step-title{
+  font-family:var(--font-display);
+  font-size:1.3rem;font-weight:400;
+  color:var(--white);
+  line-height:1.6;
+  margin-bottom:.5rem;
+}
+.step-desc{
+  font-size:.88rem;font-weight:300;
+  color:var(--white-dim);line-height:1.9;
+}
+
+@media(min-width:900px){
+  .process-steps{
+    display:grid;grid-template-columns:repeat(2,1fr);
+    gap:3rem 4rem;
+  }
+  .step-line{display:none}
+}
+
+/* ══════════════ TESTIMONIALS ══════════════ */
+#testimonials{
+  background:var(--black);
+  overflow:hidden;
+}
+.testi-header{margin-bottom:3rem}
+
+.testi-track-wrap{position:relative}
+.testi-track{
+  display:flex;gap:1.25rem;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  padding-bottom:1.5rem;
+}
+.testi-track::-webkit-scrollbar{display:none}
+
+.testi-card{
+  flex-shrink:0;
+  width:min(85vw,340px);
+  scroll-snap-align:start;
+  background:var(--glass);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border:1px solid var(--glass-border);
+  border-radius:16px;
+  padding:1.75rem 1.5rem;
+  position:relative;
+  transition:border-color .3s,transform .3s;
+}
+.testi-card:hover{border-color:rgba(255,61,90,.2);transform:translateY(-4px)}
+
+.testi-quote{
+  position:absolute;top:1.25rem;right:1.25rem;
+  font-family:var(--font-display);
+  font-size:4rem;font-weight:700;
+  color:var(--coral);
+  opacity:.18;
+  line-height:1;
+  pointer-events:none;
+}
+.testi-stars{
+  display:flex;gap:.2rem;margin-bottom:1rem;
+  color:var(--coral);
+}
+.testi-text{
+  font-size:.88rem;font-weight:300;
+  color:var(--white-dim);line-height:1.9;
+  margin-bottom:1.5rem;
+  font-style:italic;
+}
+.testi-person{display:flex;align-items:center;gap:.85rem}
+.testi-avatar{
+  width:42px;height:42px;border-radius:50%;
+  background:var(--glass-border);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;flex-shrink:0;
+  color:var(--coral);
+}
+.testi-name{
+  font-size:.88rem;font-weight:600;
+  color:var(--white);
+  line-height:1.4;
+}
+.testi-origin{
+  font-size:.75rem;font-weight:300;
+  color:var(--white-dim);
+}
+
+/* ══════════════ GALLERY ══════════════ */
+#gallery{
+  background:var(--black2);
+  padding:5rem 0;
+}
+.gallery-header{padding:0 1.5rem;margin-bottom:2.5rem}
+.gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:4px;
+}
+.gallery-item{
+  overflow:hidden;
+  position:relative;
+  cursor:pointer;
+}
+.gallery-item img{
+  height:180px;
+  object-fit:cover;
+  transition:transform .6s cubic-bezier(.4,0,.2,1);
+}
+.gallery-item:hover img{transform:scale(1.08)}
+.gallery-item.tall img{height:300px}
+.gallery-item.wide{grid-column:span 2}
+.gallery-item.wide img{height:220px}
+
+@media(min-width:600px){
+  .gallery-grid{grid-template-columns:repeat(3,1fr)}
+  .gallery-item img{height:240px}
+  .gallery-item.tall img{height:400px}
+  .gallery-item.wide{grid-column:span 1}
+  .gallery-item.wide img{height:240px}
+}
+@media(min-width:768px){
+  #gallery{padding:7rem 0}
+  .gallery-header{padding:0 3rem}
+  .gallery-grid{grid-template-columns:repeat(4,1fr)}
+  .gallery-item img{height:280px}
+}
+
+/* ══════════════ CONTACT ══════════════ */
+#contact{
+  background:var(--black);
+  position:relative;overflow:hidden;
+}
+.contact-blob{
+  position:absolute;
+  top:-20%;right:-15%;
+  width:500px;height:500px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(255,61,90,.06),transparent 70%);
+  pointer-events:none;
+}
+.contact-wrap{
+  display:flex;flex-direction:column;gap:3rem;
+  position:relative;z-index:1;
+}
+.contact-info .section-title{margin-bottom:1.25rem}
+.contact-info .section-body{margin-bottom:2rem}
+
+.contact-items{display:flex;flex-direction:column;gap:1.25rem}
+.contact-item{
+  display:flex;align-items:flex-start;gap:1rem;
+  font-size:.9rem;font-weight:300;
+  color:var(--white-dim);line-height:1.85;
+}
+.contact-item-icon{
+  width:40px;height:40px;
+  border-radius:10px;
+  background:rgba(255,61,90,.1);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;color:var(--coral);
+  margin-top:.1rem;
+}
+.contact-item strong{color:var(--white);display:block;font-weight:600;margin-bottom:.1rem}
+
+.contact-form{
+  background:var(--glass);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border:1px solid var(--glass-border);
+  border-radius:20px;
+  padding:2rem 1.5rem;
+}
+.form-row{display:flex;flex-direction:column;gap:1rem;margin-bottom:1rem}
+.form-group{display:flex;flex-direction:column;gap:.4rem}
+.form-group label{
+  font-size:.78rem;font-weight:500;
+  letter-spacing:.06em;text-transform:uppercase;
+  color:var(--white-dim);
+}
+.form-group input,
+.form-group select,
+.form-group textarea{
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--glass-border);
+  border-radius:10px;
+  padding:.85rem 1rem;
+  color:var(--white);
+  font-family:var(--font-body);
+  font-size:.9rem;
+  font-weight:300;
+  outline:none;
+  transition:border-color .25s;
+  min-height:44px;
+}
+.form-group input::placeholder,
+.form-group textarea::placeholder{color:rgba(245,240,235,.3)}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{border-color:rgba(255,61,90,.5)}
+.form-group select option{background:var(--black2);color:var(--white)}
+.form-group textarea{min-height:110px;resize:vertical}
+
+.form-submit{
+  width:100%;
+  display:flex;align-items:center;justify-content:center;gap:.6rem;
+  padding:1rem 2rem;
+  background:var(--coral);
+  color:var(--white);
+  border:none;
+  border-radius:50px;
+  font-family:var(--font-body);
+  font-size:.9rem;font-weight:600;
+  letter-spacing:.04em;
+  cursor:pointer;
+  transition:background .25s,transform .25s,box-shadow .25s;
+  margin-top:1.25rem;
+  min-height:44px;
+}
+.form-submit:hover{
+  background:var(--coral-dim);
+  transform:translateY(-2px);
+  box-shadow:0 12px 28px rgba(255,61,90,.3);
+}
+
+@media(min-width:640px){
+  .form-row{flex-direction:row}
+  .form-row .form-group{flex:1}
+}
+@media(min-width:1000px){
+  .contact-wrap{flex-direction:row;align-items:flex-start;gap:5rem}
+  .contact-info{flex:1}
+  .contact-form{flex:1.1;padding:2.5rem 2rem}
+}
+
+/* ══════════════ FOOTER ══════════════ */
+footer{
+  background:var(--black2);
+  border-top:1px solid var(--glass-border);
+  padding:3rem 1.5rem 2rem;
+}
+.footer-inner{
+  max-width:1200px;margin:0 auto;
+  display:flex;flex-direction:column;gap:2.5rem;
+}
+.footer-brand{max-width:280px}
+.footer-logo{
+  font-family:var(--font-display);
+  font-size:1.6rem;font-weight:600;
+  color:var(--white);
+  margin-bottom:.75rem;
+  letter-spacing:.02em;
+}
+.footer-logo span{color:var(--coral)}
+.footer-tagline{
+  font-size:.82rem;font-weight:300;
+  color:var(--white-dim);line-height:1.85;
+}
+.footer-links-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:2rem 1.5rem;
+}
+.footer-links-col h4{
+  font-size:.72rem;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:var(--coral);
+  margin-bottom:1rem;
+}
+.footer-links-col ul{list-style:none;display:flex;flex-direction:column;gap:.6rem}
+.footer-links-col li a{
+  font-size:.85rem;font-weight:300;
+  color:var(--white-dim);
+  transition:color .25s;
+  line-height:1.8;
+}
+.footer-links-col li a:hover{color:var(--white)}
+
+.footer-bottom{
+  border-top:1px solid var(--glass-border);
+  padding-top:1.5rem;
+  display:flex;flex-direction:column;gap:.75rem;
+  font-size:.75rem;font-weight:300;
+  color:var(--white-dim);
+}
+.footer-socials{display:flex;gap:1rem}
+.footer-social{
+  width:36px;height:36px;
+  border-radius:50%;
+  border:1px solid var(--glass-border);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--white-dim);
+  transition:border-color .25s,color .25s,background .25s;
+}
+.footer-social:hover{
+  border-color:var(--coral);
+  color:var(--coral);
+  background:rgba(255,61,90,.08);
+}
+
+@media(min-width:768px){
+  footer{padding:4rem 3rem 2.5rem}
+  .footer-inner{flex-direction:row;justify-content:space-between;align-items:flex-start;gap:3rem}
+  .footer-links-grid{grid-template-columns:repeat(2,1fr)}
+  .footer-bottom{flex-direction:row;justify-content:space-between;align-items:center}
+}
+@media(min-width:1200px){
+  footer{padding:4rem 5rem 2.5rem}
+}
+
+/* ══════════════ SCROLL REVEAL ══════════════ */
+.reveal{
+  opacity:0;
+  transform:translateY(28px);
+  transition:opacity .6s ease-out,transform .6s ease-out;
+}
+.reveal.visible{opacity:1;transform:none}
+.reveal-delay-1{transition-delay:.1s}
+.reveal-delay-2{transition-delay:.2s}
+.reveal-delay-3{transition-delay:.3s}
+.reveal-delay-4{transition-delay:.4s}
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav id="nav">
+  <a href="#" class="nav-logo">Samui<span>Today</span></a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#services" data-lang-th="บริการ" data-lang-en="Services">บริการ</a></li>
+      <li><a href="#destinations" data-lang-th="จุดหมาย" data-lang-en="Destinations">จุดหมาย</a></li>
+      <li><a href="#about" data-lang-th="เกี่ยวกับเรา" data-lang-en="About">เกี่ยวกับเรา</a></li>
+      <li><a href="#testimonials" data-lang-th="รีวิว" data-lang-en="Reviews">รีวิว</a></li>
+      <li><a href="#contact" data-lang-th="ติดต่อ" data-lang-en="Contact">ติดต่อ</a></li>
+    </ul>
+    <button class="lang-sw" aria-label="Switch language">
+      <i data-lucide="globe" width="14" height="14"></i>
+      <span class="lang-sw__label">TH</span>
+    </button>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ══ MOBILE MENU ══ -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#services" class="mobile-link" data-lang-th="บริการ" data-lang-en="Services">บริการ</a>
+  <a href="#destinations" class="mobile-link" data-lang-th="จุดหมาย" data-lang-en="Destinations">จุดหมาย</a>
+  <a href="#about" class="mobile-link" data-lang-th="เกี่ยวกับเรา" data-lang-en="About">เกี่ยวกับเรา</a>
+  <a href="#testimonials" class="mobile-link" data-lang-th="รีวิว" data-lang-en="Reviews">รีวิว</a>
+  <a href="#contact" class="mobile-menu-cta" data-lang-th="จองเลย" data-lang-en="Book Now">จองเลย</a>
+</div>
+
+<!-- ══ HERO ══ -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="hero-eyebrow-line"></span>
+      <span data-lang-th="เกาะสมุย ประเทศไทย" data-lang-en="Koh Samui, Thailand">เกาะสมุย ประเทศไทย</span>
+    </div>
+    <h1 class="hero-title" data-lang-th="ค้นพบ<br><em>สมุยที่แท้จริง</em>" data-lang-en="Discover<br><em>Real Samui</em>">ค้นพบ<br><em>สมุยที่แท้จริง</em></h1>
+    <p class="hero-sub" data-lang-th="ทัวร์วันเดย์ ทริปเกาะ และรถรับส่งส่วนตัว โดยคนท้องถิ่นที่คุณไว้ใจได้ ตั้งแต่ปี 2548" data-lang-en="Day tours, island trips, and private transfers led by trusted locals since 2005. Experience Samui the way it was meant to be seen.">ทัวร์วันเดย์ ทริปเกาะ และรถรับส่งส่วนตัว โดยคนท้องถิ่นที่คุณไว้ใจได้ ตั้งแต่ปี 2548</p>
+    <div class="hero-actions">
+      <a href="#services" class="btn-primary">
+        <i data-lucide="compass" width="16" height="16"></i>
+        <span data-lang-th="ดูแพ็กเกจทัวร์" data-lang-en="Explore Tours">ดูแพ็กเกจทัวร์</span>
+      </a>
+      <a href="#contact" class="btn-ghost">
+        <span data-lang-th="จองเลย" data-lang-en="Book Now">จองเลย</span>
+        <i data-lucide="arrow-right" width="16" height="16"></i>
+      </a>
+    </div>
+  </div>
+  <div class="hero-scroll-hint">
+    <div class="hero-scroll-hint-line"></div>
+  </div>
+</section>
+
+<!-- ══ STATS ══ -->
+<div id="stats">
+  <div class="stats-inner">
+    <div class="stat-item reveal">
+      <div class="stat-number">20+</div>
+      <div class="stat-label" data-lang-th="ปีแห่งประสบการณ์" data-lang-en="Years Experience">ปีแห่งประสบการณ์</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-1">
+      <div class="stat-number">15K+</div>
+      <div class="stat-label" data-lang-th="ลูกค้าที่พึงพอใจ" data-lang-en="Happy Travelers">ลูกค้าที่พึงพอใจ</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-2">
+      <div class="stat-number">50+</div>
+      <div class="stat-label" data-lang-th="จุดหมายปลายทาง" data-lang-en="Destinations">จุดหมายปลายทาง</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-3">
+      <div class="stat-number">4.9★</div>
+      <div class="stat-label" data-lang-th="คะแนนเฉลี่ย" data-lang-en="Average Rating">คะแนนเฉลี่ย</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SERVICES ══ -->
+<section id="services">
+  <div class="services-header reveal">
+    <div class="section-label" data-lang-th="บริการของเรา" data-lang-en="Our Services">บริการของเรา</div>
+    <h2 class="section-title" data-lang-th="ทุกการเดินทาง<br><em>คือประสบการณ์</em>" data-lang-en="Every Journey<br><em>Is an Experience</em>">ทุกการเดินทาง<br><em>คือประสบการณ์</em></h2>
+  </div>
+  <div class="services-accordion">
+    <!-- Item 1 -->
+    <div class="acc-item active reveal">
+      <div class="acc-trigger">
+        <div class="acc-trigger-left">
+          <span class="acc-num">01</span>
+          <span class="acc-name" data-lang-th="ทัวร์เกาะวันเดย์" data-lang-en="Island Day Tours">ทัวร์เกาะวันเดย์</span>
+        </div>
+        <i data-lucide="plus" class="acc-icon" width="20" height="20"></i>
+      </div>
+      <div class="acc-body">
+        <div class="acc-inner">
+          <div class="acc-img">
+            <img src="https://images.unsplash.com/photo-1758135005519-9e60fa133ebf?w=600&h=400&fit=crop" alt="Tropical island with turquoise water">
+          </div>
+          <div>
+            <p class="acc-desc" data-lang-th="ออกเดินทางสู่เกาะนางยวน เกาะเต่า และอ่าวซากุ่ม สัมผัสน้ำทะเลใสราวกระจก ดำน้ำดูปะการัง และนอนผ่อนคลายบนหาดทรายขาวบริสุทธิ์ พร้อมอาหารกลางวันและอุปกรณ์สนอร์เกิลครบชุด" data-lang-en="Set sail to Koh Nang Yuan, Koh Tao, and Ang Thong Marine Park. Snorkel pristine reefs, kayak through limestone caves, and unwind on powder-white beaches — all inclusive with lunch and equipment.">ออกเดินทางสู่เกาะนางยวน เกาะเต่า และอ่าวซากุ่ม สัมผัสน้ำทะเลใสราวกระจก ดำน้ำดูปะการัง และนอนผ่อนคลายบนหาดทรายขาวบริสุทธิ์ พร้อมอาหารกลางวันและอุปกรณ์สนอร์เกิลครบชุด</p>
+            <div class="acc-tags" style="margin-top:.85rem">
+              <span class="acc-tag" data-lang-th="อาหารรวม" data-lang-en="Meals Included">อาหารรวม</span>
+              <span class="acc-tag" data-lang-th="สนอร์เกิล" data-lang-en="Snorkeling">สนอร์เกิล</span>
+              <span class="acc-tag" data-lang-th="รับ-ส่งโรงแรม" data-lang-en="Hotel Transfer">รับ-ส่งโรงแรม</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Item 2 -->
+    <div class="acc-item reveal reveal-delay-1">
+      <div class="acc-trigger">
+        <div class="acc-trigger-left">
+          <span class="acc-num">02</span>
+          <span class="acc-name" data-lang-th="รถรับส่งส่วนตัว" data-lang-en="Private Transfers">รถรับส่งส่วนตัว</span>
+        </div>
+        <i data-lucide="plus" class="acc-icon" width="20" height="20"></i>
+      </div>
+      <div class="acc-body">
+        <div class="acc-inner">
+          <div class="acc-img">
+            <img src="https://images.unsplash.com/photo-1684515659140-95e32ff58787?w=600&h=400&fit=crop" alt="Aerial view of boat on sea">
+          </div>
+          <div>
+            <p class="acc-desc" data-lang-th="บริการรถรับ-ส่งส่วนตัว สนามบินสมุย ท่าเรือ และโรงแรมทุกแห่งบนเกาะ พนักงานขับรถผ่านการอบรม พูดภาษาอังกฤษได้ และมีความรู้เรื่องสถานที่ท่องเที่ยวในพื้นที่เป็นอย่างดี" data-lang-en="Door-to-door private transfers between Samui Airport, ferry terminals, and every hotel on the island. Professional, English-speaking drivers with child seats and meet-and-greet service available.">บริการรถรับ-ส่งส่วนตัว สนามบินสมุย ท่าเรือ และโรงแรมทุกแห่งบนเกาะ พนักงานขับรถผ่านการอบรม พูดภาษาอังกฤษได้ และมีความรู้เรื่องสถานที่ท่องเที่ยวในพื้นที่เป็นอย่างดี</p>
+            <div class="acc-tags" style="margin-top:.85rem">
+              <span class="acc-tag" data-lang-th="ตลอด 24 ชั่วโมง" data-lang-en="24/7 Service">ตลอด 24 ชั่วโมง</span>
+              <span class="acc-tag" data-lang-th="รถ AC" data-lang-en="Air-Conditioned">รถ AC</span>
+              <span class="acc-tag" data-lang-th="ติดตามแบบเรียลไทม์" data-lang-en="Live Tracking">ติดตามแบบเรียลไทม์</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Item 3 -->
+    <div class="acc-item reveal reveal-delay-2">
+      <div class="acc-trigger">
+        <div class="acc-trigger-left">
+          <span class="acc-num">03</span>
+          <span class="acc-name" data-lang-th="ทัวร์สำรวจเกาะสมุย" data-lang-en="Samui Island Explorer">ทัวร์สำรวจเกาะสมุย</span>
+        </div>
+        <i data-lucide="plus" class="acc-icon" width="20" height="20"></i>
+      </div>
+      <div class="acc-body">
+        <div class="acc-inner">
+          <div class="acc-img">
+            <img src="https://images.unsplash.com/photo-1595955997615-2c2c8bd671e9?w=600&h=400&fit=crop" alt="Sunset over sea rocks">
+          </div>
+          <div>
+            <p class="acc-desc" data-lang-th="สำรวจเกาะสมุยกับมัคคุเทศก์ท้องถิ่น เยี่ยมชมน้ำตกนาเมืองที่ซ่อนตัวอยู่ในป่า วัดพระใหญ่ หมู่บ้านชาวประมงดั้งเดิม และตลาดสดยามเช้าที่เต็มไปด้วยกลิ่นอาหารไทยแท้" data-lang-en="Uncover Samui's hidden side with a local guide. Visit Na Muang Waterfall tucked in dense jungle, the Big Buddha temple, traditional fishing villages, and a bustling morning wet market brimming with authentic Thai flavours.">สำรวจเกาะสมุยกับมัคคุเทศก์ท้องถิ่น เยี่ยมชมน้ำตกนาเมืองที่ซ่อนตัวอยู่ในป่า วัดพระใหญ่ หมู่บ้านชาวประมงดั้งเดิม และตลาดสดยามเช้าที่เต็มไปด้วยกลิ่นอาหารไทยแท้</p>
+            <div class="acc-tags" style="margin-top:.85rem">
+              <span class="acc-tag" data-lang-th="มัคคุเทศก์ท้องถิ่น" data-lang-en="Local Guide">มัคคุเทศก์ท้องถิ่น</span>
+              <span class="acc-tag" data-lang-th="ชิมอาหาร" data-lang-en="Food Tasting">ชิมอาหาร</span>
+              <span class="acc-tag" data-lang-th="กลุ่มเล็ก" data-lang-en="Small Group">กลุ่มเล็ก</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Item 4 -->
+    <div class="acc-item reveal reveal-delay-3">
+      <div class="acc-trigger">
+        <div class="acc-trigger-left">
+          <span class="acc-num">04</span>
+          <span class="acc-name" data-lang-th="เช่าเรือสปีดโบ๊ท" data-lang-en="Speedboat Charters">เช่าเรือสปีดโบ๊ท</span>
+        </div>
+        <i data-lucide="plus" class="acc-icon" width="20" height="20"></i>
+      </div>
+      <div class="acc-body">
+        <div class="acc-inner">
+          <div class="acc-img">
+            <img src="https://images.unsplash.com/photo-1586204723634-bbfa53312e3e?w=600&h=400&fit=crop" alt="Speedboat on the sea">
+          </div>
+          <div>
+            <p class="acc-desc" data-lang-th="เช่าเรือสปีดโบ๊ทส่วนตัวพร้อมกัปตันผู้เชี่ยวชาญ เหมาะสำหรับครอบครัว กลุ่มเพื่อน หรือคู่รัก วางแผนเส้นทางเองได้ตามใจชอบ ไม่ว่าจะเป็นทริปพระอาทิตย์ตก ดำน้ำจุดพิเศษ หรืองานปาร์ตี้กลางทะเล" data-lang-en="Charter a private speedboat with an expert captain. Design your own itinerary — sunset cruises to hidden coves, exclusive snorkel spots, island-hopping at your own pace, or a twilight party with the sea all to yourselves.">เช่าเรือสปีดโบ๊ทส่วนตัวพร้อมกัปตันผู้เชี่ยวชาญ เหมาะสำหรับครอบครัว กลุ่มเพื่อน หรือคู่รัก วางแผนเส้นทางเองได้ตามใจชอบ ไม่ว่าจะเป็นทริปพระอาทิตย์ตก ดำน้ำจุดพิเศษ หรืองานปาร์ตี้กลางทะเล</p>
+            <div class="acc-tags" style="margin-top:.85rem">
+              <span class="acc-tag" data-lang-th="ส่วนตัว 100%" data-lang-en="100% Private">ส่วนตัว 100%</span>
+              <span class="acc-tag" data-lang-th="กำหนดเส้นทางเอง" data-lang-en="Custom Route">กำหนดเส้นทางเอง</span>
+              <span class="acc-tag" data-lang-th="กัปตันมืออาชีพ" data-lang-en="Pro Captain">กัปตันมืออาชีพ</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ DESTINATIONS ══ -->
+<section id="destinations">
+  <div class="dest-header reveal">
+    <div class="section-label" data-lang-th="จุดหมายยอดนิยม" data-lang-en="Top Destinations">จุดหมายยอดนิยม</div>
+    <h2 class="section-title" data-lang-th="เกาะที่คุณ<em>ฝัน</em>ถึง" data-lang-en="Islands You've <em>Dreamed</em> Of">เกาะที่คุณ<em>ฝัน</em>ถึง</h2>
+  </div>
+  <div class="dest-scroll">
+    <div class="dest-card">
+      <div class="dest-img">
+        <img src="https://images.unsplash.com/photo-1758135005218-f18e2a3c3ce8?w=500&h=700&fit=crop" alt="Turquoise water white sand beach">
+      </div>
+      <div class="dest-overlay"></div>
+      <div class="dest-info">
+        <div class="dest-name" data-lang-th="เกาะนางยวน" data-lang-en="Koh Nang Yuan">เกาะนางยวน</div>
+        <div class="dest-meta"><i data-lucide="anchor" width="12" height="12"></i> <span data-lang-th="45 นาที จากสมุย" data-lang-en="45 min from Samui">45 นาที จากสมุย</span></div>
+      </div>
+    </div>
+    <div class="dest-card">
+      <div class="dest-img">
+        <img src="https://images.unsplash.com/photo-1565641576261-a0d19db34b9d?w=500&h=700&fit=crop" alt="Island from above">
+      </div>
+      <div class="dest-overlay"></div>
+      <div class="dest-info">
+        <div class="dest-name" data-lang-th="เกาะเต่า" data-lang-en="Koh Tao">เกาะเต่า</div>
+        <div class="dest-meta"><i data-lucide="anchor" width="12" height="12"></i> <span data-lang-th="1.5 ชั่วโมง จากสมุย" data-lang-en="1.5 hrs from Samui">1.5 ชั่วโมง จากสมุย</span></div>
+      </div>
+    </div>
+    <div class="dest-card">
+      <div class="dest-img">
+        <img src="https://images.unsplash.com/photo-1758135005519-9e60fa133ebf?w=500&h=700&fit=crop" alt="Tropical island paradise">
+      </div>
+      <div class="dest-overlay"></div>
+      <div class="dest-info">
+        <div class="dest-name" data-lang-th="อุทยานแห่งชาติ<br>อ่าวไทย" data-lang-en="Ang Thong<br>Marine Park">อุทยานแห่งชาติ<br>อ่าวไทย</div>
+        <div class="dest-meta"><i data-lucide="anchor" width="12" height="12"></i> <span data-lang-th="30 นาที จากสมุย" data-lang-en="30 min from Samui">30 นาที จากสมุย</span></div>
+      </div>
+    </div>
+    <div class="dest-card">
+      <div class="dest-img">
+        <img src="https://images.unsplash.com/photo-1668882595256-06b1a3b56777?w=500&h=700&fit=crop" alt="Boat on calm sea">
+      </div>
+      <div class="dest-overlay"></div>
+      <div class="dest-info">
+        <div class="dest-name" data-lang-th="เกาะพะงัน" data-lang-en="Koh Phangan">เกาะพะงัน</div>
+        <div class="dest-meta"><i data-lucide="anchor" width="12" height="12"></i> <span data-lang-th="30 นาที จากสมุย" data-lang-en="30 min from Samui">30 นาที จากสมุย</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ ABOUT ══ -->
+<section id="about">
+  <div class="about-wrap">
+    <div class="about-visual reveal">
+      <div class="about-main-img">
+        <img src="https://images.unsplash.com/photo-1704727711632-362ab637955e?w=700&h=900&fit=crop" alt="Mountains and sea in Thailand">
+      </div>
+      <div class="about-badge">
+        <div class="about-badge-num">20</div>
+        <div class="about-badge-txt" data-lang-th="ปี บนเกาะสมุย" data-lang-en="Years on Samui">ปี บนเกาะสมุย</div>
+      </div>
+    </div>
+    <div class="about-text">
+      <div class="section-label reveal" data-lang-th="เรื่องราวของเรา" data-lang-en="Our Story">เรื่องราวของเรา</div>
+      <h2 class="section-title reveal" data-lang-th="รากเหง้าจาก<br><em>เกาะสมุย</em>" data-lang-en="Born and Raised<br>on <em>Samui</em>">รากเหง้าจาก<br><em>เกาะสมุย</em></h2>
+      <p class="section-body reveal" data-lang-th="SamuiToday ก่อตั้งขึ้นในปี 2548 โดยคนในพื้นที่ที่รักและผูกพันกับเกาะแห่งนี้ตั้งแต่เกิด เราไม่ได้เป็นแค่ผู้ให้บริการท่องเที่ยว แต่เป็นเพื่อนร่วมทางที่จะพาคุณสัมผัสสมุยในแบบที่คนนอกไม่มีทางรู้จัก" data-lang-en="Founded in 2005 by islanders who grew up swimming these waters and exploring these jungles, SamuiToday isn't just a tour operator — we're your local friends, showing you the Samui that never makes it into the guidebooks.">SamuiToday ก่อตั้งขึ้นในปี 2548 โดยคนในพื้นที่ที่รักและผูกพันกับเกาะแห่งนี้ตั้งแต่เกิด เราไม่ได้เป็นแค่ผู้ให้บริการท่องเที่ยว แต่เป็นเพื่อนร่วมทางที่จะพาคุณสัมผัสสมุยในแบบที่คนนอกไม่มีทางรู้จัก</p>
+      <div class="about-features reveal">
+        <div class="about-feat">
+          <div class="about-feat-icon"><i data-lucide="shield-check" width="18" height="18"></i></div>
+          <p data-lang-th="ได้รับใบอนุญาตถูกต้องตามกฎหมาย พร้อมประกันภัยเดินทางครบถ้วน" data-lang-en="Fully licensed and insured — every vehicle, every vessel, every guide on our team.">ได้รับใบอนุญาตถูกต้องตามกฎหมาย พร้อมประกันภัยเดินทางครบถ้วน</p>
+        </div>
+        <div class="about-feat">
+          <div class="about-feat-icon"><i data-lucide="leaf" width="18" height="18"></i></div>
+          <p data-lang-th="ใส่ใจสิ่งแวดล้อม ไม่ใช้พลาสติก และสนับสนุนชุมชนท้องถิ่น" data-lang-en="Eco-conscious practices — no single-use plastics, reef-safe sunscreen only, revenue shared with local communities.">ใส่ใจสิ่งแวดล้อม ไม่ใช้พลาสติก และสนับสนุนชุมชนท้องถิ่น</p>
+        </div>
+        <div class="about-feat">
+          <div class="about-feat-icon"><i data-lucide="headphones" width="18" height="18"></i></div>
+          <p data-lang-th="ทีมงานพูดได้หลายภาษา พร้อมให้บริการทุกวัน ตลอด 24 ชั่วโมง" data-lang-en="Multilingual support team available 24/7 — reach us by WhatsApp, LINE, or phone any time.">ทีมงานพูดได้หลายภาษา พร้อมให้บริการทุกวัน ตลอด 24 ชั่วโมง</p>
+        </div>
+      </div>
+      <a href="#contact" class="btn-primary reveal">
+        <span data-lang-th="คุยกับเรา" data-lang-en="Talk to Us">คุยกับเรา</span>
+        <i data-lucide="arrow-right" width="16" height="16"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PROCESS ══ -->
+<section id="process">
+  <div class="process-bg-text">Journey</div>
+  <div class="process-header reveal">
+    <div class="section-label" data-lang-th="วิธีการจอง" data-lang-en="How It Works">วิธีการจอง</div>
+    <h2 class="section-title" data-lang-th="ง่าย ไว <em>ไว้ใจได้</em>" data-lang-en="Simple, Fast, <em>Trusted</em>">ง่าย ไว <em>ไว้ใจได้</em></h2>
+  </div>
+  <div class="process-steps">
+    <div class="process-step reveal">
+      <div class="step-num-wrap">
+        <div class="step-num">01</div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-content">
+        <div class="step-title" data-lang-th="เลือกแพ็กเกจ" data-lang-en="Choose Your Tour">เลือกแพ็กเกจ</div>
+        <p class="step-desc" data-lang-th="เลือกบริการที่ต้องการจากหน้าเว็บ หรือแชทกับทีมงานของเราเพื่อปรึกษาโปรแกรมที่เหมาะกับคุณ" data-lang-en="Pick from our ready-made packages or chat with our team to create a custom itinerary that fits your schedule and group.">เลือกบริการที่ต้องการจากหน้าเว็บ หรือแชทกับทีมงานของเราเพื่อปรึกษาโปรแกรมที่เหมาะกับคุณ</p>
+      </div>
+    </div>
+    <div class="process-step reveal reveal-delay-1">
+      <div class="step-num-wrap">
+        <div class="step-num">02</div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-content">
+        <div class="step-title" data-lang-th="ยืนยันการจอง" data-lang-en="Confirm &amp; Pay">ยืนยันการจอง</div>
+        <p class="step-desc" data-lang-th="ชำระเงินมัดจำผ่านช่องทางที่สะดวก รับการยืนยันการจองภายใน 30 นาที พร้อมเอกสารครบชุด" data-lang-en="Pay a small deposit through your preferred method. Receive instant confirmation and a full booking itinerary within 30 minutes.">ชำระเงินมัดจำผ่านช่องทางที่สะดวก รับการยืนยันการจองภายใน 30 นาที พร้อมเอกสารครบชุด</p>
+      </div>
+    </div>
+    <div class="process-step reveal reveal-delay-2">
+      <div class="step-num-wrap">
+        <div class="step-num">03</div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-content">
+        <div class="step-title" data-lang-th="รับที่โรงแรม" data-lang-en="Picked Up From Hotel">รับที่โรงแรม</div>
+        <p class="step-desc" data-lang-th="ทีมงานของเราจะมารับคุณถึงโรงแรม ตรงเวลา พร้อมรอยยิ้ม ไม่ต้องกังวลเรื่องการเดินทาง" data-lang-en="Our driver arrives at your hotel door, on time and smiling. Zero stress — just be ready and we handle the rest.">ทีมงานของเราจะมารับคุณถึงโรงแรม ตรงเวลา พร้อมรอยยิ้ม ไม่ต้องกังวลเรื่องการเดินทาง</p>
+      </div>
+    </div>
+    <div class="process-step reveal reveal-delay-3">
+      <div class="step-num-wrap">
+        <div class="step-num">04</div>
+      </div>
+      <div class="step-content">
+        <div class="step-title" data-lang-th="เพลิดเพลินกับสมุย" data-lang-en="Enjoy Samui">เพลิดเพลินกับสมุย</div>
+        <p class="step-desc" data-lang-th="ปล่อยใจให้อิสระ ลืมตารางงานและอีเมล สัมผัสประสบการณ์ที่คุณจะจำไปอีกนาน" data-lang-en="Switch off. Let Samui do its magic. Our guides take care of every detail so all you need to do is be present.">ปล่อยใจให้อิสระ ลืมตารางงานและอีเมล สัมผัสประสบการณ์ที่คุณจะจำไปอีกนาน</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TESTIMONIALS ══ -->
+<section id="testimonials">
+  <div class="testi-header reveal">
+    <div class="section-label" data-lang-th="เสียงจากลูกค้า" data-lang-en="Traveler Stories">เสียงจากลูกค้า</div>
+    <h2 class="section-title" data-lang-th="พวกเขาพูดถึง<br><em>เราอย่างไร</em>" data-lang-en="What Our Guests<br><em>Are Saying</em>">พวกเขาพูดถึง<br><em>เราอย่างไร</em></h2>
+  </div>
+  <div class="testi-track">
+    <div class="testi-card">
+      <div class="testi-quote">"</div>
+      <div class="testi-stars">
+        <i data-lucide="star" width="14" height="14" style="fill:currentColor"></i>
+        <i data-lucide="star" width="14" height="14" style="fill:currentColor"></i>
+        <i data-lucide="star" width="14" height="14" style="fill:currentColor"></i>
+        <i data-lucide="star" width="14" height="14" style="fill:currentColor"></i>
+        <i data-lucide="star" width="14" height="14" style="fill:currentColor"></i>
+      </div>
+      <p class="testi-text" data-lang-th="ประทับใจมากค่ะ ไกด์พาไปจุดที่นักท่องเที่ยวทั่วไปไม่รู้จัก น้ำทะเลใสมาก ดำน้ำดูปะการังสวยมาก แนะนำเลยค่ะ" data-lang-en="Absolutely spectacular. Our guide took us to spots that weren't on any map — the water was the clearest I've ever seen. SamuiToday made our honeymoon unforgettable.">"ประทับใจมากค่ะ ไกด์พาไปจุดที่นักท่องเที่ยวทั่วไปไม่รู้จัก น้ำทะเลใสมาก ดำน้ำดูปะการังสวยมาก แนะนำเลยค่ะ"</p>
+      <div class="testi-person">
+        <div class="testi-avatar"><i data-lucide="user" width="18" height="18"></i></div>
+        <div>
+          <div class="testi-name">Sophie L.</div>
+          <div class="testi-origin">Paris, France</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-quote">"</div>
+      <div class="testi-stars">
+        <i data-lucide="star" width="14" height="14" style="fill:currentColor"></i>
+        <i data-lucide="star" width="14" height="14" style="fill:currentColor"></i>
+        <i data-lucide="star" width="14" height="14" style="fill:currentColor"></i>
+        <i data-lucide="star" width="14" height="14" style="fill:currentColor"></i>
+        <i data-lucide="star" width="14" height="14" style="fill:currentColor"></i>
+      </div>
+      <p class="testi-text" data-lang-th="จองรถรับส่งสนามบินกับ SamuiToday รถสะอาด คนขับตรงเวลา ราคาสมเหตุสมผล จะใช้บริการอีกแน่นอนครับ" data-lang-en="Booked the airport transfer and a full-day island tour. The driver was waiting with a sign — couldn't ask for smoother. Five stars without hesitation.">"Booked the airport transfer and a full-day island tour. The driver was waiting with a sign — couldn't ask for smoother. Five stars without hesitation."</p>
+      <div class="testi-person">
+        <div class="testi-avatar"><i data-lucide="user" width="18" height="18"></i></div>
+        <div>
+          <div class="testi-name">Marcus T.</div>
+          <div class="testi-origin">Sydney, Australia</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-quote">"</div>
+      <div class="testi-stars">
+        <i data-lucide="star" width="14" height="14" style="fill:currentColor"></i>
+        <i data-lucide="star" width="14" height="14" style="fill:currentColor"></i>
+        <i data-lucide="star" width="14" height="14" style="fill:currentColor"></i>
+        <i data-lucide="star" width="14" height="14" style="fill:currentColor"></i>
+        <i data-lucide="star" width="14" height="14" style="fill:currentColor"></i>
+      </div>
+      <p class="testi-text" data-lang-th="พาครอบครัวมาเที่ยว ลูกๆ สนุกมากกับการดำน้ำดูปะการัง ทีมงานดูแลดีมาก ปลอดภัย น่าไว้วางใจ" data-lang-en="We chartered a speedboat for our family of six — kids aged 4 to 14 — and the team made everyone feel safe and included. Genuinely the best day of our holiday.">"We chartered a speedboat for our family of six — the team made everyone feel safe and included. Best day of our holiday."</p>
+      <div class="testi-person">
+        <div class="testi-avatar"><i data-lucide="user" width="18" height="18"></i></div>
+        <div>
+          <div class="testi-name">Yuki N.</div>
+          <div class="testi-origin">Tokyo, Japan</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-quote">"</div>
+      <div class="testi-stars">
+        <i data-lucide="star" width="14" height="14" style="fill:currentColor"></i>
+        <i data-lucide="star" width="14" height="14" style="fill:currentColor"></i>
+        <i data-lucide="star" width="14" height="14" style="fill:currentColor"></i>
+        <i data-lucide="star" width="14" height="14" style="fill:currentColor"></i>
+        <i data-lucide="star" width="14" height="14" style="fill:currentColor"></i>
+      </div>
+      <p class="testi-text" data-lang-th="ทัวร์สำรวจเกาะสมุยดีมาก ได้ไปตลาดเช้า น้ำตก และวัดที่ไม่เคยรู้จักมาก่อน ไกด์เล่าเรื่องสนุกมาก" data-lang-en="The island explorer tour blew me away. The morning market, the hidden waterfall, the stories our guide told — it was real, raw, and deeply memorable. Forget the big resort pools.">"The island explorer tour blew me away. The morning market, the hidden waterfall, the stories our guide told — it was real and deeply memorable."</p>
+      <div class="testi-person">
+        <div class="testi-avatar"><i data-lucide="user" width="18" height="18"></i></div>
+        <div>
+          <div class="testi-name">Lena K.</div>
+          <div class="testi-origin">Berlin, Germany</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ GALLERY ══ -->
+<section id="gallery">
+  <div class="gallery-header reveal">
+    <div class="section-label" data-lang-th="ภาพจากการเดินทาง" data-lang-en="From the Field">ภาพจากการเดินทาง</div>
+    <h2 class="section-title" data-lang-th="ชีวิตบน<em>เกาะ</em>" data-lang-en="Life on the <em>Island</em>">ชีวิตบน<em>เกาะ</em></h2>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1704727711589-4ed1847a4015?w=500&h=400&fit=crop" alt="Boat on calm water">
+    </div>
+    <div class="gallery-item tall">
+      <img src="https://images.unsplash.com/photo-1758135005218-f18e2a3c3ce8?w=400&h=700&fit=crop" alt="White sand beach">
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1550920576-7db4e7cb61e3?w=500&h=400&fit=crop" alt="Neon lights at night">
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1580595186449-7fd330bf6ad5?w=500&h=400&fit=crop" alt="Speedboat on blue water">
+    </div>
+    <div class="gallery-item wide">
+      <img src="https://images.unsplash.com/photo-1608480176234-c3fdfe59e988?w=900&h=500&fit=crop" alt="Sunset over Samui">
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1565641576261-a0d19db34b9d?w=500&h=400&fit=crop" alt="Island from water">
+    </div>
+  </div>
+</section>
+
+<!-- ══ CONTACT ══ -->
+<section id="contact">
+  <div class="contact-blob"></div>
+  <div class="contact-wrap">
+    <div class="contact-info">
+      <div class="section-label reveal" data-lang-th="ติดต่อเรา" data-lang-en="Get in Touch">ติดต่อเรา</div>
+      <h2 class="section-title reveal" data-lang-th="พร้อมออกเดินทาง<br><em>กับคุณ</em>" data-lang-en="Ready to Set<br><em>Sail Together</em>">พร้อมออกเดินทาง<br><em>กับคุณ</em></h2>
+      <p class="section-body reveal" data-lang-th="ติดต่อทีมงานของเราเพื่อปรึกษาแผนการเดินทาง จองทัวร์ หรือสอบถามข้อมูลเพิ่มเติม เราพร้อมตอบทุกคำถามของคุณ" data-lang-en="Reach out to our team to plan your trip, make a booking, or just ask anything — we reply fast and we love hearing from travellers.">ติดต่อทีมงานของเราเพื่อปรึกษาแผนการเดินทาง จองทัวร์ หรือสอบถามข้อมูลเพิ่มเติม เราพร้อมตอบทุกคำถามของคุณ</p>
+      <div class="contact-items reveal">
+        <div class="contact-item">
+          <div class="contact-item-icon"><i data-lucide="phone" width="18" height="18"></i></div>
+          <div>
+            <strong data-lang-th="โทรศัพท์ / WhatsApp" data-lang-en="Phone / WhatsApp">โทรศัพท์ / WhatsApp</strong>
+            +66 77 123 456
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon"><i data-lucide="mail" width="18" height="18"></i></div>
+          <div>
+            <strong data-lang-th="อีเมล" data-lang-en="Email">อีเมล</strong>
+            hello@samuitoday.com
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon"><i data-lucide="map-pin" width="18" height="18"></i></div>
+          <div>
+            <strong data-lang-th="ที่อยู่" data-lang-en="Address">ที่อยู่</strong>
+            <span data-lang-th="142/5 ถ.เฉวง ต.บ่อผุด อ.เกาะสมุย จ.สุราษฎร์ธานี 84320" data-lang-en="142/5 Chaweng Road, Bophut, Koh Samui, Surat Thani 84320">142/5 ถ.เฉวง ต.บ่อผุด อ.เกาะสมุย จ.สุราษฎร์ธานี 84320</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon"><i data-lucide="clock" width="18" height="18"></i></div>
+          <div>
+            <strong data-lang-th="เวลาทำการ" data-lang-en="Opening Hours">เวลาทำการ</strong>
+            <span data-lang-th="ทุกวัน 07:00 – 22:00 น." data-lang-en="Daily 07:00 – 22:00">ทุกวัน 07:00 – 22:00 น.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form reveal reveal-delay-2">
+      <div class="form-row">
+        <div class="form-group">
+          <label data-lang-th="ชื่อ" data-lang-en="Name">ชื่อ</label>
+          <input type="text" placeholder="John Smith">
+        </div>
+        <div class="form-group">
+          <label data-lang-th="อีเมล" data-lang-en="Email">อีเมล</label>
+          <input type="email" placeholder="john@example.com">
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:1rem">
+        <label data-lang-th="บริการที่สนใจ" data-lang-en="Service">บริการที่สนใจ</label>
+        <select>
+          <option value="" data-lang-th="-- เลือกบริการ --" data-lang-en="-- Select a service --">-- เลือกบริการ --</option>
+          <option value="island" data-lang-th="ทัวร์เกาะวันเดย์" data-lang-en="Island Day Tour">ทัวร์เกาะวันเดย์</option>
+          <option value="transfer" data-lang-th="รถรับส่งส่วนตัว" data-lang-en="Private Transfer">รถรับส่งส่วนตัว</option>
+          <option value="explorer" data-lang-th="ทัวร์สำรวจเกาะสมุย" data-lang-en="Samui Explorer">ทัวร์สำรวจเกาะสมุย</option>
+          <option value="charter" data-lang-th="เช่าเรือสปีดโบ๊ท" data-lang-en="Speedboat Charter">เช่าเรือสปีดโบ๊ท</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin-bottom:1rem">
+        <label data-lang-th="ข้อความ" data-lang-en="Message">ข้อความ</label>
+        <textarea placeholder="Tell us your travel dates, group size, and any special requests..."></textarea>
+      </div>
+      <button class="form-submit">
+        <i data-lucide="send" width="16" height="16"></i>
+        <span data-lang-th="ส่งข้อความ" data-lang-en="Send Message">ส่งข้อความ</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo">Samui<span>Today</span></div>
+      <p class="footer-tagline" data-lang-th="บริการทัวร์และรถรับส่งส่วนตัวบนเกาะสมุย โดยคนท้องถิ่นที่ไว้วางใจได้ตั้งแต่ปี 2548" data-lang-en="Authentic tours and private transfers on Koh Samui, by trusted locals since 2005.">บริการทัวร์และรถรับส่งส่วนตัวบนเกาะสมุย โดยคนท้องถิ่นที่ไว้วางใจได้ตั้งแต่ปี 2548</p>
+    </div>
+    <div class="footer-links-grid">
+      <div class="footer-links-col">
+        <h4 data-lang-th="บริการ" data-lang-en="Services">บริการ</h4>
+        <ul>
+          <li><a href="#services" data-lang-th="ทัวร์เกาะวันเดย์" data-lang-en="Island Day Tours">ทัวร์เกาะวันเดย์</a></li>
+          <li><a href="#services" data-lang-th="รถรับส่งส่วนตัว" data-lang-en="Private Transfers">รถรับส่งส่วนตัว</a></li>
+          <li><a href="#services" data-lang-th="ทัวร์สำรวจเกาะ" data-lang-en="Island Explorer">ทัวร์สำรวจเกาะ</a></li>
+          <li><a href="#services" data-lang-th="เช่าเรือสปีดโบ๊ท" data-lang-en="Speedboat Charter">เช่าเรือสปีดโบ๊ท</a></li>
+        </ul>
+      </div>
+      <div class="footer-links-col">
+        <h4 data-lang-th="ลิงก์" data-lang-en="Links">ลิงก์</h4>
+        <ul>
+          <li><a href="#about" data-lang-th="เกี่ยวกับเรา" data-lang-en="About Us">เกี่ยวกับเรา</a></li>
+          <li><a href="#destinations" data-lang-th="จุดหมายปลายทาง" data-lang-en="Destinations">จุดหมายปลายทาง</a></li>
+          <li><a href="#testimonials" data-lang-th="รีวิวลูกค้า" data-lang-en="Reviews">รีวิวลูกค้า</a></li>
+          <li><a href="#contact" data-lang-th="ติดต่อเรา" data-lang-en="Contact">ติดต่อเรา</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-inner" style="margin-top:2rem">
+    <div class="footer-bottom" style="width:100%">
+      <span data-lang-th="© 2025 SamuiToday.com · สงวนลิขสิทธิ์" data-lang-en="© 2025 SamuiToday.com · All rights reserved">© 2025 SamuiToday.com · สงวนลิขสิทธิ์</span>
+      <div class="footer-socials">
+        <a href="#" class="footer-social" aria-label="Facebook"><i data-lucide="facebook" width="16" height="16"></i></a>
+        <a href="#" class="footer-social" aria-label="Instagram"><i data-lucide="instagram" width="16" height="16"></i></a>
+        <a href="#" class="footer-social" aria-label="Youtube"><i data-lucide="youtube" width="16" height="16"></i></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── NAV SCROLL ──
+(function(){
+  var nav=document.getElementById('nav');
+  window.addEventListener('scroll',function(){
+    nav.classList.toggle('scrolled',window.scrollY>60);
+  },{passive:true});
+})();
+
+// ── HAMBURGER ──
+(function(){
+  var btn=document.getElementById('hamburgerBtn');
+  var menu=document.getElementById('mobileMenu');
+  btn.addEventListener('click',function(){
+    btn.classList.toggle('open');
+    menu.classList.toggle('open');
+    document.body.style.overflow=menu.classList.contains('open')?'hidden':'';
+  });
+  menu.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click',function(){
+      btn.classList.remove('open');
+      menu.classList.remove('open');
+      document.body.style.overflow='';
+    });
+  });
+})();
+
+// ── ACCORDION ──
+(function(){
+  document.querySelectorAll('.acc-trigger').forEach(function(trigger){
+    trigger.addEventListener('click',function(){
+      var item=this.closest('.acc-item');
+      var isActive=item.classList.contains('active');
+      document.querySelectorAll('.acc-item').forEach(function(i){i.classList.remove('active')});
+      if(!isActive)item.classList.add('active');
+    });
+  });
+})();
+
+// ── SCROLL REVEAL ──
+(function(){
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}
+    });
+  },{threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+})();
+</script>
+
+<!-- ── LANG SWITCH (exact script as specified) ── -->
+<script>(function(){var K='site-lang',L=localStorage.getItem(K)||'th';function S(l){L=l;localStorage.setItem(K,l);document.documentElement.lang=l;document.querySelectorAll('[data-lang-th]').forEach(function(e){var t=e.getAttribute('data-lang-'+l);if(t!==null){e.textContent=t}});var lb=document.querySelector('.lang-sw__label');if(lb){lb.textContent=l.toUpperCase()}}var sw=document.querySelector('.lang-sw');if(sw){sw.addEventListener('click',function(){S(L==='th'?'en':'th')});sw.style.cursor='pointer'}if(L!=='th'){S(L)}})();</script>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>
