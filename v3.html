@@ -37,7 +37,7 @@
   .pill{display:inline-block;font-family:var(--display);font-weight:800;font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;padding:8px 16px;border-radius:999px;border:2.5px solid var(--ink)}
   .lang-th .pill{letter-spacing:.02em}
 
-  .btn{display:inline-flex;align-items:center;gap:9px;cursor:pointer;font-family:var(--display);font-weight:800;font-size:.95rem;padding:14px 26px;border-radius:999px;border:2.5px solid var(--ink);transition:transform .18s cubic-bezier(.34,1.56,.64,1),box-shadow .18s;box-shadow:var(--shadow-sm)}
+  .btn{display:inline-flex;align-items:center;gap:9px;cursor:pointer;font-family:var(--display);font-weight:800;font-size:.95rem;padding:14px 26px;border-radius:999px;border:2.5px solid var(--ink);white-space:nowrap;transition:transform .18s cubic-bezier(.34,1.56,.64,1),box-shadow .18s;box-shadow:var(--shadow-sm)}
   .btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
   .btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
   .btn-blue{background:var(--blue);color:#fff}
@@ -55,8 +55,9 @@
   .brand-name{font-family:var(--display);font-weight:800;font-size:1.18rem}
   .brand-sub{font-size:.58rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)}
   .lang-th .brand-sub{letter-spacing:.02em}
-  .navlinks{display:flex;list-style:none;gap:26px;align-items:center}
-  .navlinks a{font-family:var(--display);font-weight:700;font-size:.92rem;position:relative;transition:color .2s}
+  .navlinks{display:flex;list-style:none;gap:18px;align-items:center;flex-wrap:nowrap}
+  .navlinks a{font-family:var(--display);font-weight:700;font-size:.82rem;position:relative;transition:color .2s;white-space:nowrap;flex-shrink:0}
+  .navlinks .btn-yellow{padding:9px 16px;font-size:.8rem}
   .navlinks a:hover{color:var(--blue)}
   .navlinks a::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:3px;background:var(--yellow);border-radius:3px;transform:scaleX(0);transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
   .navlinks a:hover::after{transform:scaleX(1)}
